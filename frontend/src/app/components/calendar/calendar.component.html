@@ -1,0 +1,145 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Planning</span>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mt-2">
+        📅 Calendrier <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#1A73E8] to-[#FF6D00]">Scolaire</span>
+      </h1>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Consultez les événements, examens et vacances scolaires
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Calendar -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+          <!-- Month Navigation -->
+          <div class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] px-6 py-4 flex items-center justify-between">
+            <button (click)="prevMonth()" class="text-white hover:bg-white/20 p-2 rounded-lg transition">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <h2 class="text-xl font-bold text-white">
+              {{ monthNames[currentMonth()] }} {{ currentYear() }}
+            </h2>
+            <button (click)="nextMonth()" class="text-white hover:bg-white/20 p-2 rounded-lg transition">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Days Header -->
+          <div class="grid grid-cols-7 border-b">
+            <div *ngFor="let day of ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']" 
+                 class="py-3 text-center font-semibold text-gray-600">
+              {{ day }}
+            </div>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="grid grid-cols-7">
+            <!-- Empty cells -->
+            <div *ngFor="let x of [].constructor(getFirstDayOfMonth())" 
+                 class="min-h-24 border-b border-r p-1 bg-gray-50"></div>
+            
+            <!-- Days -->
+            <div *ngFor="let day of [].constructor(getDaysInMonth()); let i = index" 
+                 class="min-h-24 border-b border-r p-1 hover:bg-gray-50 transition">
+              <div class="text-sm font-medium text-gray-700 mb-1">{{ i + 1 }}</div>
+              <div class="space-y-1">
+                <div *ngFor="let event of getEventsForDay(i + 1).slice(0, 2)"
+                     (click)="selectEvent(event)"
+                     [class]="getEventColor(event.type)"
+                     class="text-xs text-white px-1 py-0.5 rounded cursor-pointer truncate">
+                  {{ getEventIcon(event.type) }} {{ event.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="px-6 py-4 bg-gray-50 flex flex-wrap gap-4">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+              <span class="text-sm text-gray-600">Examens</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+              <span class="text-sm text-gray-600">Vacances</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+              <span class="text-sm text-gray-600">Sessions live</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+              <span class="text-sm text-gray-600">Jours fériés</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Events -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-3xl shadow-xl p-6 sticky top-24">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">📋 Événements à venir</h3>
+          
+          <div class="space-y-4">
+            <div *ngFor="let event of upcomingEvents()" 
+                 (click)="selectEvent(event)"
+                 class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer transition-all hover:shadow-md">
+              <div [class]="getEventColor(event.type) + ' w-10 h-10 rounded-lg flex items-center justify-center text-white'">
+                {{ getEventIcon(event.type) }}
+              </div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-gray-900 text-sm">{{ event.title }}</h4>
+                <p class="text-xs text-gray-500">{{ event.date | date:'dd MMM yyyy' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="mt-6 pt-6 border-t border-gray-100">
+            <h4 class="font-semibold text-gray-900 mb-3">Liens rapides</h4>
+            <div class="space-y-2">
+              <a routerLink="/exams" class="flex items-center gap-2 text-sm text-[#1A73E8] hover:text-[#FF6D00] transition">
+                📝 Voir les examens
+              </a>
+              <a routerLink="/live-sessions" class="flex items-center gap-2 text-sm text-[#1A73E8] hover:text-[#FF6D00] transition">
+                🎥 Sessions live à venir
+              </a>
+              <a routerLink="/courses" class="flex items-center gap-2 text-sm text-[#1A73E8] hover:text-[#FF6D00] transition">
+                📚 Explorer les cours
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div *ngIf="selectedEvent()" 
+         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+         (click)="closeModal()">
+      <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl" (click)="$event.stopPropagation()">
+        <div class="flex items-start justify-between mb-4">
+          <div [class]="getEventColor(selectedEvent()!.type) + ' w-14 h-14 rounded-2xl flex items-center justify-center text-2xl'">
+            {{ getEventIcon(selectedEvent()!.type) }}
+          </div>
+          <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ selectedEvent()!.title }}</h3>
+        <p class="text-[#1A73E8] font-medium mb-4">{{ selectedEvent()!.date | date:'dd MMMM yyyy' }}</p>
+        <p class="text-gray-600">{{ selectedEvent()!.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

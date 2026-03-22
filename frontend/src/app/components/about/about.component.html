@@ -1,0 +1,108 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Hero Section -->
+    <div class="relative rounded-3xl overflow-hidden mb-16">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#1A73E8] to-[#FF6D00]">
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=60" 
+             class="w-full h-full object-cover opacity-30">
+      </div>
+      <div class="relative py-20 px-8 text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          🎓 À propos d'<span class="text-yellow-300">EduPlatform</span>
+        </h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto">
+          Votre partenaire de confiance pour l'excellence éducative au Maroc
+        </p>
+      </div>
+    </div>
+
+    <!-- Mission -->
+    <div class="mb-16">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-900">Notre Mission</h2>
+        <p class="text-gray-600 mt-3 max-w-3xl mx-auto">
+          EduPlatform est une plateforme d'apprentissage en ligne créée pour rendre l'éducation de qualité accessible à tous les élèves marocains, du primaire au baccalauréat.
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div *ngFor="let stat of stats()" 
+             class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-all hover:-translate-y-2">
+          <div class="text-4xl mb-2">{{ stat.icon }}</div>
+          <div class="text-3xl font-bold text-[#1A73E8]">{{ stat.value }}</div>
+          <div class="text-gray-600">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Values -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">Nos Valeurs</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div *ngFor="let value of values()" 
+             class="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-all hover:-translate-y-2">
+          <div class="text-5xl mb-4">{{ value.icon }}</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">{{ value.title }}</h3>
+          <p class="text-gray-600 text-sm">{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">Pourquoi Nous Choisir ?</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div *ngFor="let feature of features()" 
+             class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2">
+          <div class="text-4xl mb-3">{{ feature.icon }}</div>
+          <h3 class="font-bold text-gray-900 mb-2">{{ feature.title }}</h3>
+          <p class="text-gray-600 text-sm">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">Notre Équipe Dirigeante</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div *ngFor="let member of team()" 
+             class="bg-white rounded-2xl overflow-hidden shadow-lg text-center">
+          <img [src]="member.image" [alt]="member.name" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <h3 class="font-bold text-gray-900">{{ member.name }}</h3>
+            <p class="text-[#1A73E8]">{{ member.role }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- License Info -->
+    <div class="bg-white rounded-3xl p-8 shadow-xl mb-16">
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <div class="text-6xl">📜</div>
+        <div class="flex-1 text-center md:text-left">
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">Licence Officielle</h3>
+          <p class="text-gray-600">
+            EduPlatform est une plateforme d'éducation agréée, conforme aux standards du Ministère de l'Éducation Nationale.
+            Nos cours et formations sont reconnus et nos certificats délivrés sont officiels.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] rounded-3xl p-10 text-center text-white">
+      <h2 class="text-3xl font-bold mb-4">Rejoignez la communauté EduPlatform !</h2>
+      <p class="text-xl opacity-90 mb-6">Commencez votre parcours vers la réussite dès aujourd'hui</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a routerLink="/register" class="bg-white text-[#1A73E8] px-8 py-3 rounded-xl font-bold hover:shadow-2xl transition-all hover:scale-105">
+          Créer un compte gratuit
+        </a>
+        <a routerLink="/courses" class="border-2 border-white text-white px-8 py-3 rounded-xl font-bold hover:bg-white/10 transition-all">
+          Découvrir les cours
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+  <div class="max-w-4xl mx-auto px-4">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Contact</span>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mt-2">
+        📞 Nous <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#1A73E8] to-[#FF6D00]">contacter</span>
+      </h1>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Une question ? Notre équipe est là pour vous aider
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Contact Form -->
+      <div class="bg-white rounded-3xl shadow-xl p-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h2>
+        
+        <!-- Success Message -->
+        <div *ngIf="submitted()" class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center">
+          <div class="text-4xl mb-2">✅</div>
+          <h3 class="font-bold text-green-700">Message envoyé !</h3>
+          <p class="text-sm text-green-600">Nous vous répondrons sous 24h</p>
+          <button (click)="resetForm()" class="mt-3 text-sm text-green-700 font-medium hover:underline">
+            Envoyer un autre message
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form *ngIf="!submitted()" (ngSubmit)="submitForm()" class="space-y-5">
+          <!-- Name -->
+          <div>
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">👤</span>
+              Nom complet
+            </label>
+            <input 
+              type="text" 
+              [(ngModel)]="contactForm().name"
+              name="name"
+              required
+              placeholder="Votre nom"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none" />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">📧</span>
+              Email
+            </label>
+            <input 
+              type="email" 
+              [(ngModel)]="contactForm().email"
+              name="email"
+              required
+              placeholder="votre@email.com"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none" />
+          </div>
+
+          <!-- Subject -->
+          <div>
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">📋</span>
+              Sujet
+            </label>
+            <select 
+              [(ngModel)]="contactForm().subject"
+              name="subject"
+              required
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none cursor-pointer">
+              <option value="">Choisir un sujet</option>
+              <option *ngFor="let subject of subjects()" [value]="subject">{{ subject }}</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">💬</span>
+              Message
+            </label>
+            <textarea 
+              [(ngModel)]="contactForm().message"
+              name="message"
+              required
+              rows="5"
+              placeholder="Décrivez votre demande..."
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none resize-none"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button 
+            type="submit"
+            [disabled]="isLoading()"
+            class="w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-xl bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] hover:shadow-xl transition-all hover:scale-[1.02] disabled:opacity-50">
+            <span *ngIf="!isLoading()" class="flex items-center gap-2">
+              ✉️ Envoyer le message
+            </span>
+            <span *ngIf="isLoading()" class="flex items-center gap-2">
+              <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V8C0 5.373 6.627 3 10 3h4c1.453 0 2.8.697 3.607 1.87l-1.01 1.01A8.002 8.002 0 0012 16z"></path>
+              </svg>
+              Envoi en cours...
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="space-y-6">
+        <!-- Info Cards -->
+        <div class="bg-white rounded-3xl shadow-xl p-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Informations de contact</h2>
+          
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">📧</div>
+              <div>
+                <h3 class="font-semibold text-gray-900">Email</h3>
+                <p class="text-gray-600">contact&#64;eduplatform.ma</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">📱</div>
+              <div>
+                <h3 class="font-semibold text-gray-900">Téléphone</h3>
+                <p class="text-gray-600">+212 522 123 456</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">📍</div>
+              <div>
+                <h3 class="font-semibold text-gray-900">Adresse</h3>
+                <p class="text-gray-600">Casablanca, Maroc</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🕐</div>
+              <div>
+                <h3 class="font-semibold text-gray-900">Horaires</h3>
+                <p class="text-gray-600">Lun-Ven: 9h-18h</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="bg-white rounded-3xl shadow-xl p-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Suivez-nous</h2>
+          <div class="flex gap-4">
+            <a href="javascript:void(0)" class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white text-xl hover:scale-110 transition">f</a>
+            <a href="javascript:void(0)" class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-xl hover:scale-110 transition">📷</a>
+            <a href="javascript:void(0)" class="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center text-white text-xl hover:scale-110 transition">🐦</a>
+            <a href="javascript:void(0)" class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl hover:scale-110 transition">📺</a>
+          </div>
+        </div>
+
+        <!-- FAQ Link -->
+        <div class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] rounded-3xl p-8 text-white">
+          <h2 class="text-xl font-bold mb-2">FAQ</h2>
+          <p class="opacity-90 mb-4">Consultez notre FAQ pour trouver des réponses rapides</p>
+          <a routerLink="/blog" class="inline-flex items-center gap-2 font-semibold hover:underline">
+            Voir les questions fréquentes →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

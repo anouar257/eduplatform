@@ -1,0 +1,507 @@
+<!-- Hero Section - Modern Design -->
+<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+  <!-- Background Video with Overlay -->
+  <div class="absolute inset-0 bg-[#1A73E8]">
+    <video autoplay loop muted playsinline class="w-full h-full object-cover" poster="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80">
+      <source src="https://cdn.pixabay.com/video/2019/04/24/23011-332483838_large.mp4" type="video/mp4">
+      <source src="https://videos.pexels.com/video-files/3181822/3181822-uhd_2560_1440_24fps.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la balise vidéo.
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#1A73E8]/80 via-[#1A73E8]/60 to-[#FF6D00]/70 backdrop-blur-[1px]"></div>
+  </div>
+
+  <!-- Floating Elements -->
+  <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full backdrop-blur-sm animate-pulse"></div>
+  <div class="absolute bottom-32 right-16 w-32 h-32 bg-white/10 rounded-full backdrop-blur-sm animate-bounce"></div>
+  <div class="absolute top-1/3 right-1/4 w-16 h-16 bg-[#FF6D00]/30 rounded-full backdrop-blur-sm"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
+      <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+      <span class="text-sm font-medium">Plus de 12,500 étudiants font confiance à notre plateforme</span>
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-fade-in-up">
+      Transformez votre
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">avenir</span>
+      <br>avec l'excellence
+    </h1>
+    
+    <p class="text-xl md:text-2xl mb-10 opacity-90 max-w-3xl mx-auto leading-relaxed">
+      Rejoignez une communauté d'apprentissage dynamique. Cours vidéo, sessions live interactives, examens et suivi personnalisé.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+      <button (click)="exploreCourses()" 
+              class="group bg-white text-[#1A73E8] px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+        <span class="flex items-center gap-2">
+          🚀 Explorer les cours
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </span>
+      </button>
+      <button (click)="joinForFree()" 
+              class="group border-2 border-white/50 text-white px-8 py-4 rounded-xl font-semibold text-lg backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+        <span class="flex items-center gap-2">
+          ✨ S'inscrire gratuitement
+        </span>
+      </button>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-bold">👨‍🎓</div>
+        <div class="text-sm opacity-80">12,500+ Étudiants</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-bold">👨‍🏫</div>
+        <div class="text-sm opacity-80">45+ Professeurs</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-bold">📚</div>
+        <div class="text-sm opacity-80">248+ Cours</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-bold">🎯</div>
+        <div class="text-sm opacity-80">98% Réussite</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
+      <div class="w-1 h-3 bg-white/70 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Access Cards -->
+<section class="py-12 bg-gradient-to-b from-white to-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <button (click)="navigateTo('/courses')" 
+              class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+          📚
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">Cours</h3>
+        <p class="text-sm text-gray-500">248+ formations</p>
+      </button>
+
+      <button (click)="navigateTo('/exams')" 
+              class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+        <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+          📝
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">Examens</h3>
+        <p class="text-sm text-gray-500">Testez vos connaissances</p>
+      </button>
+
+      <button (click)="navigateTo('/live-sessions')" 
+              class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+        <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+          🎥
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">Live</h3>
+        <p class="text-sm text-gray-500">Sessions en direct</p>
+      </button>
+
+      <button (click)="navigateTo('/login')" 
+              class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+          👤
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">Connexion</h3>
+        <p class="text-sm text-gray-500">Accédez à votre compte</p>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Courses Carousel -->
+<section class="py-20 px-4 bg-gray-50">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Populaire</span>
+        <h2 class="text-4xl font-bold text-gray-900 mt-2">Cours en vedette</h2>
+        <p class="text-gray-600 mt-2">Découvrez nos formations les mieux notées</p>
+      </div>
+      <button (click)="exploreCourses()" class="hidden md:flex items-center gap-2 text-[#1A73E8] font-semibold hover:gap-4 transition-all">
+        Voir tout
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="relative" *ngIf="featuredCourses().length > 0">
+      <div class="overflow-hidden rounded-3xl">
+        <div class="flex transition-transform duration-500" [style.transform]="'translateX(-' + (currentSlideIndex() * 100) + '%)'">
+          <div *ngFor="let course of featuredCourses()" class="w-full flex-shrink-0">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mx-2">
+              <div class="md:flex">
+                <div class="md:w-1/2 relative">
+                  <img [src]="course.thumbnail" [alt]="course.title" class="w-full h-72 md:h-96 object-cover">
+                  <div class="absolute top-4 left-4">
+                    <span class="px-4 py-2 bg-[#1A73E8] text-white rounded-full text-sm font-semibold shadow-lg">
+                      {{ course.subjectName }}
+                    </span>
+                  </div>
+                  <div *ngIf="course.isFree" class="absolute top-4 right-4">
+                    <span class="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-semibold shadow-lg">
+                      🎁 Gratuit
+                    </span>
+                  </div>
+                </div>
+                <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="flex text-yellow-400">
+                      <svg *ngFor="let star of [1,2,3,4,5]" class="w-5 h-5" [class]="star <= course.rating ? 'fill-current text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                    </div>
+                    <span class="text-gray-600">{{ course.rating }}/5</span>
+                  </div>
+                  <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ course.title }}</h3>
+                  <p class="text-gray-600 mb-6 line-clamp-3">{{ course.description }}</p>
+                  <div class="flex items-center gap-4 mb-6">
+                    <div class="flex items-center gap-2">
+                      <div class="w-10 h-10 bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] rounded-full flex items-center justify-center text-white font-bold">
+                        {{ course.teacherName.charAt(0) }}
+                      </div>
+                      <span class="font-medium text-gray-700">{{ course.teacherName }}</span>
+                    </div>
+                    <span class="text-gray-400">•</span>
+                    <span class="text-gray-600">{{ course.lessonCount }} leçons</span>
+                  </div>
+                  <button (click)="enrollInCourse(course.id)" 
+                          class="w-full md:w-auto bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all hover:scale-105">
+                    Voir le cours →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button (click)="prevSlide()" 
+              class="absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:shadow-xl rounded-full p-3 transition-all hover:scale-110 z-10">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button (click)="nextSlide()" 
+              class="absolute right-4 top-1/2 -translate-y-1/2 bg-white shadow-lg hover:shadow-xl rounded-full p-3 transition-all hover:scale-110 z-10">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+      
+      <!-- Dots -->
+      <div class="flex justify-center mt-8 gap-2">
+        <button *ngFor="let course of featuredCourses(); let i = index" 
+                (click)="goToSlide(i)" 
+                [class]="i === currentSlideIndex() ? 'w-10 bg-[#1A73E8]' : 'w-3 bg-gray-300'"
+                class="h-3 rounded-full transition-all duration-300"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Niveaux Scolaires -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Niveaux Scolaires</span>
+      <h2 class="text-4xl font-bold text-gray-900 mt-2">Choisissez votre <span class="text-[#1A73E8]">niveau</span></h2>
+      <p class="text-gray-600 mt-2">Des cours adaptés à chaque étape du parcours scolaire</p>
+    </div>
+    
+    <div class="grid md:grid-cols-4 gap-6">
+      <!-- Primaire -->
+      <button (click)="navigateToLevel('primaire')" 
+              class="group relative overflow-hidden rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-br from-orange-400 to-orange-500 text-white">
+        <div class="absolute top-4 right-4 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-500">🎨</div>
+        <div class="relative z-10">
+          <h3 class="text-2xl font-bold mb-2">Primaire</h3>
+          <p class="text-white/80 text-sm mb-3">1ère - 6ème année</p>
+          <p class="text-white/70 text-xs mb-4">Les bases fondamentales</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold">482 cours</span>
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <!-- Collège -->
+      <button (click)="navigateToLevel('college')" 
+              class="group relative overflow-hidden rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-br from-emerald-400 to-emerald-500 text-white">
+        <div class="absolute top-4 right-4 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-500">🔬</div>
+        <div class="relative z-10">
+          <h3 class="text-2xl font-bold mb-2">Collège</h3>
+          <p class="text-white/80 text-sm mb-3">7ème - 9ème année</p>
+          <p class="text-white/70 text-xs mb-4">Approfondissement des connaissances</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold">723 cours</span>
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <!-- Lycée -->
+      <button (click)="navigateToLevel('lycee')" 
+              class="group relative overflow-hidden rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+        <div class="absolute top-4 right-4 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-500">📐</div>
+        <div class="relative z-10">
+          <h3 class="text-2xl font-bold mb-2">Lycée</h3>
+          <p class="text-white/80 text-sm mb-3">1ère - 3ème année</p>
+          <p class="text-white/70 text-xs mb-4">Préparation avancée</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold">1102 cours</span>
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <!-- Bac & Examens -->
+      <button (click)="navigateToLevel('bac')" 
+              class="group relative overflow-hidden rounded-3xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-br from-pink-500 to-rose-500 text-white">
+        <div class="absolute top-4 right-4 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-500">🎓</div>
+        <div class="relative z-10">
+          <h3 class="text-2xl font-bold mb-2">Bac & Examens</h3>
+          <p class="text-white/80 text-sm mb-3">Préparation intensive</p>
+          <p class="text-white/70 text-xs mb-4">Réussissez vos examens</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold">537 cours</span>
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Subject Categories -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Catégories</span>
+      <h2 class="text-4xl font-bold text-gray-900 mt-2">Par matière</h2>
+      <p class="text-gray-600 mt-2">Explorez toutes nos disciplines</p>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <button *ngFor="let subject of subjects()" 
+              (click)="filterBySubject(subject.name)"
+              class="group bg-gray-50 hover:bg-gradient-to-br hover:from-[#1A73E8]/5 hover:to-[#FF6D00]/5 rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-lg border border-gray-100">
+        <div class="text-4xl mb-3 group-hover:scale-125 transition-transform">{{ subject.icon }}</div>
+        <h3 class="font-semibold text-gray-900 group-hover:text-[#1A73E8] transition-colors">{{ subject.name }}</h3>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Live Sessions -->
+<section class="py-20 bg-gradient-to-r from-[#1A73E8]/5 to-[#FF6D00]/5">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">En direct</span>
+        <h2 class="text-4xl font-bold text-gray-900 mt-2">Sessions live à venir</h2>
+        <p class="text-gray-600 mt-2">Participez à des cours interactifs en temps réel</p>
+      </div>
+      <button (click)="navigateTo('/live-sessions')" class="hidden md:flex items-center gap-2 text-[#1A73E8] font-semibold hover:gap-4 transition-all">
+        Voir tout
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      <div *ngFor="let session of upcomingSessions()" 
+           class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=600&q=60" 
+               alt="Session" class="w-full h-40 object-cover">
+          <div class="absolute top-3 left-3">
+            <span class="px-3 py-1 bg-red-500 text-white rounded-full text-xs font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+              EN DIRECT
+            </span>
+          </div>
+          <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
+            {{ session.duration }} min
+          </div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">{{ session.title }}</h3>
+          <p class="text-gray-600 text-sm mb-3">👨‍🏫 {{ session.teacherName }}</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-500">📅 {{ session.scheduledAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            <button (click)="joinSession(session.id)" 
+                    class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transition-all">
+              Rejoindre
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="text-[#FF6D00] font-semibold text-sm uppercase tracking-wider">Pourquoi nous</span>
+      <h2 class="text-4xl font-bold text-gray-900 mt-2">L'excellence éducative</h2>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center p-8 rounded-2xl hover:bg-gray-50 transition-colors">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+          🎬
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Vidéos HD</h3>
+        <p class="text-gray-600">Cours enregistrés en haute qualité avec sous-titres et ressources téléchargeables</p>
+      </div>
+      
+      <div class="text-center p-8 rounded-2xl hover:bg-gray-50 transition-colors">
+        <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+          👨‍🏫
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Professeurs experts</h3>
+        <p class="text-gray-600">Équipe pédagogique expérimentée avec des années d'expérience dans l'éducation</p>
+      </div>
+      
+      <div class="text-center p-8 rounded-2xl hover:bg-gray-50 transition-colors">
+        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+          📊
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Suivi personnalisé</h3>
+        <p class="text-gray-600">Tableau de bord pour suivre votre progression et identifier vos points faibles</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-[#1A73E8] to-[#FF6D00]">
+  <div class="max-w-4xl mx-auto px-4 text-center text-white">
+    <h2 class="text-4xl font-bold mb-4">Prêt à commencer votre parcours ?</h2>
+    <p class="text-xl opacity-90 mb-8">Rejoignez des milliers d'étudiants et transformez votre avenir dès aujourd'hui</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button (click)="joinForFree()" 
+              class="bg-white text-[#1A73E8] px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl transition-all hover:scale-105">
+        🚀 S'inscrire gratuitement
+      </button>
+      <button (click)="exploreCourses()" 
+              class="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all">
+        Découvrir les cours
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gradient-to-br from-gray-900 to-[#1A73E8] text-white py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-3xl animate-bounce">🎓</span>
+          <span class="text-2xl font-bold bg-gradient-to-r from-white to-[#FF6D00] bg-clip-text text-transparent">EduPlatform</span>
+        </div>
+        <p class="text-gray-400">La plateforme d'apprentissage en ligne qui transforme l'éducation au Maroc</p>
+      </div>
+      
+      <div>
+        <h4 class="font-bold mb-4 text-lg">📚 Plateforme</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a routerLink="/courses" class="hover:text-white transition-colors flex items-center gap-2">→ Cours</a></li>
+          <li><a routerLink="/live-sessions" class="hover:text-white transition-colors flex items-center gap-2">→ Sessions live</a></li>
+          <li><a routerLink="/exams" class="hover:text-white transition-colors flex items-center gap-2">→ Examens</a></li>
+          <li><a routerLink="/glossary" class="hover:text-white transition-colors flex items-center gap-2">→ Glossaire</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-bold mb-4 text-lg">🤝 Support</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a routerLink="/blog" class="hover:text-white transition-colors flex items-center gap-2">→ Blog</a></li>
+          <li><a routerLink="/contact" class="hover:text-white transition-colors flex items-center gap-2">→ Nous contacter</a></li>
+          <li><a routerLink="/about" class="hover:text-white transition-colors flex items-center gap-2">→ À propos</a></li>
+          <li><a href="javascript:void(0)" class="hover:text-white transition-colors flex items-center gap-2">→ FAQ</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-bold mb-4 text-lg">⚖️ Légal</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="javascript:void(0)" class="hover:text-white transition-colors flex items-center gap-2">→ Politique de confidentialité</a></li>
+          <li><a href="javascript:void(0)" class="hover:text-white transition-colors flex items-center gap-2">→ Conditions d'utilisation</a></li>
+          <li><a href="javascript:void(0)" class="hover:text-white transition-colors flex items-center gap-2">→ Mentions légales</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Social Media -->
+    <div class="border-t border-gray-800 pt-8 mb-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <span class="text-gray-400">Suivez-nous :</span>
+          <a href="javascript:void(0)" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">f</a>
+          <a href="javascript:void(0)" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">📷</a>
+          <a href="javascript:void(0)" class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">🐦</a>
+          <a href="javascript:void(0)" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">📺</a>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-gray-400">Apps mobiles :</span>
+          <a href="javascript:void(0)" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 3.37c-.34.2-.71.3-1.1.3c-.42 0-.82-.11-1.17-.34c-.89-.58-1.66-1.32-2.3-2.2c-.48-.67-.89-1.41-1.19-2.2c-.3-.79-.49-1.64-.49-2.54c0-2.1 1.71-3.8 3.8-3.8c.89 0 1.73.24 2.48.66c.75.42 1.41 1.03 1.98 1.81c.57.78 1.03 1.62 1.37 2.54c.34.92.52 1.88.52 2.89c0 .39-.03.77-.09 1.14-.21c.37-.12.73-.28 1.07-.48c.34-.2.66-.46.96-.78c.3-.32.56-.68.78-1.06c.22-.38.4-.78.54-1.22c.14-.44.25-.9.33-1.36c.08-.46.14-.94.18-1.43c.04-.49.06-.99.06-1.49c0-2.1-1.71-3.8-3.8-3.8c-.89 0-1.73.24-2.48.66c-.75.42-1.41 1.03-1.98 1.81c-.57.78-1.03 1.62-1.37 2.54c-.34.92-.52 1.88-.52 2.89c0 .39.03.77.09 1.14.21c.37.12.73.28 1.07.48c.34.2.66.46.96.78c.3.32.56.68.78 1.06c-.22.38-.4.78-.54-1.22c-.14-.44-.25-.9-.33-1.36c-.08-.46-.14-.94-.18-1.43c-.04-.49-.06-.99-.06-1.49c0-2.1 1.71-3.8 3.8-3.8c.89 0 1.73.24 2.48.66c.75.42 1.41 1.03 1.98 1.81c.57.78 1.03 1.62 1.37 2.54c.34.92.52 1.88.52 2.89c0 .39-.03.77-.09 1.14-.21c.37-.12.73-.28 1.07-.48c.34-.2.66-.46.96-.78c.3-.32.56-.68.78-1.06c.22-.38.4-.78.54-1.22c.14-.44.25-.9.33-1.36c.08-.46.14-.94.18-1.43c.04-.49.06-.99.06-1.49z"/>
+            </svg>
+            App Store
+          </a>
+          <a href="javascript:void(0)" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.21H2.058a.996.996 0 01-.61-.21L11.38 12 1.447 2.224A.996.996 0 012.058 2h10.94c.221 0 .429.074.61.21L14.22 12l10.378 10.224a.996.996 0 00.61.21h10.94a.996.996 0 00.61-.21L13.792 12 23.975 1.814A.996.996 0 0023.364 2H12.424a.996.996 0 00-.61.21L12.014 12 11.814 2.224A.996.996 0 0012.424 2h10.94a.996.996 0 00.61-.21L12.014 12 23.975 1.814A.996.996 0 0023.364 2H12.424a.996.996 0 00-.61.21L12.014 12 11.814 2.224A.996.996 0 0012.424 2h10.94a.996.996 0 00.61-.21L12.014 12 23.975 1.814A.996.996 0 0023.364 2H12.424a.996.996 0 00-.61.21L12.014 12 11.814 2.224A.996.996 0 0012.424 2h10.94a.996.996 0 00.61-.21L12.014 12z"/>
+            </svg>
+            Google Play
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+      <p>© {{ currentYear }} EduPlatform. Tous droits réservés. 🇲🇦</p>
+      <p class="text-sm mt-2">Made with ❤️ au Maroc</p>
+    </div>
+  </div>
+</footer>

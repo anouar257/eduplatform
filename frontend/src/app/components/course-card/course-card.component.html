@@ -1,0 +1,46 @@
+<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
+  <a class="block" [routerLink]="['/courses', course().id]">
+    <div class="relative aspect-video w-full overflow-hidden bg-gray-100">
+      <img
+        [src]="course().coverUrl"
+        [alt]="course().title"
+        class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+
+      <div class="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-gray-800 backdrop-blur">
+        {{ course().categoryName }}
+      </div>
+
+      <div class="absolute right-3 top-3 rounded-full bg-[#1A73E8]/10 px-3 py-1 text-xs font-semibold text-[#1A73E8]">
+        {{ course().levelName }}
+      </div>
+    </div>
+  </a>
+
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-lg font-semibold text-gray-900 truncate">
+      {{ course().title }}
+    </h3>
+
+    <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-600">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-gray-700">
+          <span class="text-xs font-semibold">{{ course().teacherName.charAt(0) }}</span>
+        </span>
+        <span class="font-medium text-gray-700">{{ course().teacherName }}</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-[#34A853]"></span>
+        <span>{{ durationLabel() }}</span>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <a
+        [routerLink]="['/courses', course().id]"
+        class="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2">
+        Voir
+      </a>
+    </div>
+  </div>
+</article>

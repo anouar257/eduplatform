@@ -1,0 +1,132 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1A73E8]/20 via-white to-[#FF6D00]/20 p-4">
+  <div class="w-full max-w-md">
+    <!-- Logo & Back -->
+    <div class="text-center mb-6">
+      <a routerLink="/" class="inline-flex items-center gap-2 text-[#1A73E8] font-semibold hover:gap-3 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Retour à l'accueil
+      </a>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+      <!-- Header with Image -->
+      <div class="relative h-32 bg-gradient-to-br from-[#1A73E8] to-[#FF6D00]">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=60')] bg-cover bg-center opacity-30"></div>
+        <div class="relative h-full flex flex-col items-center justify-center text-white">
+          <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl mb-3">
+            🎓
+          </div>
+          <h1 class="text-2xl font-bold">Connexion</h1>
+          <p class="text-white/80 text-sm">Accédez à votre compte EduPlatform</p>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <div class="p-8">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <!-- Error Message -->
+          <div *ngIf="errorMessage()" class="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl flex items-center gap-3">
+            <span class="text-xl">⚠️</span>
+            {{ errorMessage() }}
+          </div>
+
+          <!-- Email Field -->
+          <div class="mb-5">
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+              <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">📧</span>
+              Adresse email
+            </label>
+            <div class="relative">
+              <input 
+                id="email"
+                type="email" 
+                formControlName="email"
+                placeholder="exemple@email.com"
+                class="w-full pl-11 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none" />
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+            </div>
+            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+                 class="mt-2 text-sm text-red-500 flex items-center gap-1">
+              <span>⚠️</span>
+              <span *ngIf="loginForm.get('email')?.errors?.['required']">Email requis</span>
+              <span *ngIf="loginForm.get('email')?.errors?.['email']">Veuillez entrer un email valide</span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-5">
+            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
+              <span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">🔒</span>
+              Mot de passe
+            </label>
+            <div class="relative">
+              <input 
+                id="password"
+                type="password" 
+                formControlName="password"
+                placeholder="••••••••"
+                class="w-full pl-11 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none" />
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+            </div>
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+                 class="mt-2 text-sm text-red-500 flex items-center gap-1">
+              <span>⚠️</span>
+              <span>Mot de passe requis</span>
+            </div>
+          </div>
+
+          <!-- Remember & Forgot -->
+          <div class="flex items-center justify-between mb-6">
+            <label class="flex items-center gap-2 select-none cursor-pointer">
+              <input
+                type="checkbox"
+                formControlName="rememberMe"
+                class="w-5 h-5 rounded border-gray-300 text-[#1A73E8] focus:ring-[#1A73E8] cursor-pointer" />
+              <span class="text-sm text-gray-600">Se souvenir de moi</span>
+            </label>
+            <a href="javascript:void(0)" class="text-sm text-[#1A73E8] hover:text-[#FF6D00] font-medium transition">
+              Mot de passe oublié ?
+            </a>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading()"
+            class="w-full flex items-center justify-center gap-2 text-white font-bold py-4 px-6 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#1A73E8]/30 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] hover:shadow-xl hover:scale-[1.02] transition-all">
+            <span *ngIf="!isLoading()" class="flex items-center gap-2">
+              🚀 Se connecter
+            </span>
+            <span *ngIf="isLoading()" class="flex items-center gap-2">
+              <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V8C0 5.373 6.627 3 10 3h4c1.453 0 2.8.697 3.607 1.87l-1.01 1.01A8.002 8.002 0 0012 16z"></path>
+              </svg>
+              Connexion en cours...
+            </span>
+          </button>
+        </form>
+
+        <!-- Register Link -->
+        <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+          <p class="text-gray-600">
+            Pas encore de compte ? 
+            <a routerLink="/register" class="font-bold text-[#1A73E8] hover:text-[#FF6D00] transition">
+              Créer un compte gratuit →
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

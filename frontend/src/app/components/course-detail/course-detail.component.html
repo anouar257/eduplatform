@@ -1,0 +1,197 @@
+<div class="min-h-screen bg-[#F8F9FA] py-8">
+  <!-- Loading -->
+  <div *ngIf="isLoading()" class="flex min-h-screen items-center justify-center">
+    <div class="text-center">
+      <div class="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-[#1A73E8]"></div>
+      <p class="mt-4 text-gray-600">Chargement...</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading() && course()" class="mx-auto w-full max-w-7xl px-4">
+    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div class="flex flex-col lg:flex-row">
+        <!-- Video Player (70%) -->
+        <div class="w-full lg:w-[70%] p-6">
+          <!-- Fake Video Player -->
+          <div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-900">
+            <img [src]="course()!.coverUrl" [alt]="course()!.title" class="h-full w-full object-cover opacity-60" />
+            
+            <!-- Play Button -->
+            <button class="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg transition hover:scale-105 hover:bg-white">
+              <svg class="ml-1 h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+            </button>
+            
+            <!-- Duration badge -->
+            <div class="absolute bottom-3 right-3 rounded bg-black/70 px-2 py-1 text-xs font-medium text-white">
+              {{ totalDuration() }}
+            </div>
+          </div>
+
+          <!-- Course Info -->
+          <div class="mt-6">
+            <div class="mb-4 flex flex-wrap gap-2">
+              <span class="rounded-full bg-[#1A73E8]/10 px-3 py-1 text-sm font-medium text-[#1A73E8]">
+                {{ course()!.categoryName }}
+              </span>
+              <span class="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600">
+                {{ course()!.levelName }}
+              </span>
+            </div>
+
+            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">{{ course()!.title }}</h1>
+
+            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-600">
+              <div class="flex items-center gap-2">
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-700">
+                  {{ course()!.teacherName.charAt(0) }}
+                </span>
+                <span class="font-medium text-gray-700">{{ course()!.teacherName }}</span>
+              </div>
+              <span>•</span>
+              <span>{{ course()!.lessonCount }} leçons</span>
+              <span>•</span>
+              <span>{{ totalDuration() }}</span>
+            </div>
+
+            <!-- Tabs -->
+            <div class="mt-6 border-b border-gray-200">
+              <nav class="-mb-px flex gap-6">
+                <button
+                  (click)="activeTab.set('description')"
+                  [class]="activeTab() === 'description' 
+                    ? 'border-[#1A73E8] text-[#1A73E8]' 
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                  class="whitespace-nowrap border-b-2 py-4 text-sm font-medium transition">
+                  Description
+                </button>
+                <button
+                  (click)="activeTab.set('resources')"
+                  [class]="activeTab() === 'resources' 
+                    ? 'border-[#1A73E8] text-[#1A73E8]' 
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                  class="whitespace-nowrap border-b-2 py-4 text-sm font-medium transition">
+                  Ressources
+                </button>
+              </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="mt-6">
+              <div *ngIf="activeTab() === 'description'" class="prose prose-sm max-w-none text-gray-600">
+                <p>{{ course()!.description }}</p>
+              </div>
+              <div *ngIf="activeTab() === 'resources'" class="space-y-3">
+                <div class="flex items-center gap-3 rounded-lg border border-gray-200 p-4">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100">
+                    <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900">Cours complet PDF</p>
+                    <p class="text-sm text-gray-500">2.5 MB • PDF</p>
+                  </div>
+                  <button class="text-[#1A73E8] hover:text-[#1A73E8]/80">Télécharger</button>
+                </div>
+                <div class="flex items-center gap-3 rounded-lg border border-gray-200 p-4">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                    <svg class="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900">Exercices supplémentaires</p>
+                    <p class="text-sm text-gray-500">1.2 MB • PDF</p>
+                  </div>
+                  <button class="text-[#1A73E8] hover:text-[#1A73E8]/80">Télécharger</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enroll Button -->
+            <button class="mt-6 w-full rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2">
+              S'inscrire à ce cours
+            </button>
+          </div>
+        </div>
+
+        <!-- Lessons Sidebar (30%) -->
+        <div class="w-full border-t border-gray-200 lg:w-[30%] lg:border-t-0 bg-gray-50 p-6">
+          <h3 class="text-lg font-semibold text-gray-900">Leçons</h3>
+          <p class="text-sm text-gray-500">{{ lessons().length }} leçons • {{ totalDuration() }}</p>
+          
+          <div class="mt-4 max-h-[500px] space-y-2 overflow-y-auto pr-2">
+            <button
+              *ngFor="let lesson of lessons(); let i = index"
+              (click)="selectLesson(lesson.id)"
+              class="w-full rounded-xl border p-4 text-left transition"
+              [class]="selectedLessonId() === lesson.id 
+                ? 'border-[#1A73E8] bg-[#1A73E8]/5' 
+                : 'border-gray-200 bg-white hover:border-gray-300'">
+              <div class="flex items-start gap-3">
+                <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-lg">
+                  <span *ngIf="lesson.type === 'video'">🎬</span>
+                  <span *ngIf="lesson.type === 'pdf'">📄</span>
+                  <span *ngIf="lesson.type === 'summary'">📝</span>
+                  <span *ngIf="lesson.type === 'quiz'">❓</span>
+                </span>
+                <div class="flex-1 overflow-hidden">
+                  <p class="truncate font-medium text-gray-900">{{ i + 1 }}. {{ lesson.title }}</p>
+                  <p class="text-xs text-gray-500">
+                    {{ lesson.type }} • {{ lesson.durationMin }}min
+                    <span *ngIf="lesson.isFree" class="ml-1 text-[#34A853]">• Gratuit</span>
+                  </p>
+                </div>
+                <svg *ngIf="!lesson.isFree" class="h-5 w-5 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6">
+      <h3 class="text-xl font-bold text-gray-900 mb-6">💬 Avis des étudiants</h3>
+      
+      <!-- Add Comment -->
+      <div class="mb-8">
+        <textarea 
+          [(ngModel)]="newComment"
+          placeholder="Partagez votre avis sur ce cours..."
+          rows="3"
+          class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#1A73E8] focus:bg-blue-50/30 transition outline-none resize-none"></textarea>
+        <button 
+          (click)="addComment()"
+          [disabled]="!newComment().trim()"
+          class="mt-3 bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] text-white px-6 py-2 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50">
+          Publier mon avis
+        </button>
+      </div>
+
+      <!-- Comments List -->
+      <div class="space-y-4">
+        <div *ngFor="let comment of comments()" class="border-b border-gray-100 pb-4">
+          <div class="flex items-start gap-4">
+            <img [src]="comment.userAvatar" [alt]="comment.userName" class="w-12 h-12 rounded-full object-cover">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-semibold text-gray-900">{{ comment.userName }}</span>
+                <span class="text-sm text-gray-500">{{ comment.date | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="flex text-yellow-400 mb-2">
+                <span *ngFor="let star of [1,2,3,4,5]" class="text-lg" [class]="star <= comment.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
+              </div>
+              <p class="text-gray-600">{{ comment.content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

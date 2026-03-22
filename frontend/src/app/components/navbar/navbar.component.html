@@ -1,0 +1,300 @@
+<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+     [class]="isScrolled() ? 'navbar-solid' : 'navbar-transparent'">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center space-x-2 text-xl font-bold hover:scale-105 transition-transform duration-300">
+          <span class="text-3xl animate-bounce inline-block">🎓</span>
+          <span class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] bg-clip-text text-transparent">EduPlatform</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation with Dropdowns -->
+      <div class="hidden lg:flex items-center space-x-1">
+        
+        <!-- Apprentissage Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-[#1A73E8] transition-colors font-medium rounded-lg hover:bg-gray-50">
+            📚 Apprentissage
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left">
+            <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Par niveau</div>
+            <a routerLink="/courses" [queryParams]="{level:'primaire'}" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-lg">🎨</span>
+              <div>
+                <div class="font-medium">Primaire</div>
+                <div class="text-xs text-gray-400">1ère - 6ème année</div>
+              </div>
+            </a>
+            <a routerLink="/courses" [queryParams]="{level:'college'}" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-lg">🔬</span>
+              <div>
+                <div class="font-medium">Collège</div>
+                <div class="text-xs text-gray-400">7ème - 9ème année</div>
+              </div>
+            </a>
+            <a routerLink="/courses" [queryParams]="{level:'lycee'}" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-lg">📐</span>
+              <div>
+                <div class="font-medium">Lycée</div>
+                <div class="text-xs text-gray-400">1ère - 3ème année</div>
+              </div>
+            </a>
+            <a routerLink="/courses" [queryParams]="{level:'bac'}" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center text-lg">🎓</span>
+              <div>
+                <div class="font-medium">Bac & Examens</div>
+                <div class="text-xs text-gray-400">Préparation intensive</div>
+              </div>
+            </a>
+            <div class="border-t border-gray-100 my-2"></div>
+            <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Par type</div>
+            <a routerLink="/courses" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="text-lg">📚</span> Tous les cours
+            </a>
+            <a routerLink="/live-sessions" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="text-lg">🎥</span> Sessions en direct
+            </a>
+            <a routerLink="/exams" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="text-lg">📝</span> Examens & Tests
+            </a>
+          </div>
+        </div>
+
+        <!-- Ressources Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-[#1A73E8] transition-colors font-medium rounded-lg hover:bg-gray-50">
+            📖 Ressources
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-1 w-72 bg-white rounded-2xl shadow-xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left">
+            <a routerLink="/library" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-xl mx-2">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0">
+                📚
+              </div>
+              <div>
+                <div class="font-semibold">Bibliothèque</div>
+                <div class="text-sm text-gray-500">PDF, eBooks, documents à télécharger</div>
+                <div class="flex gap-2 mt-2">
+                  <span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">PDF</span>
+                  <span class="px-2 py-0.5 bg-green-100 text-green-600 rounded text-xs">eBooks</span>
+                  <span class="px-2 py-0.5 bg-blue-100 text-blue-600 rounded text-xs">Docs</span>
+                </div>
+              </div>
+            </a>
+            <a routerLink="/glossary" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-xl mx-2 mt-1">
+              <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0">
+                📖
+              </div>
+              <div>
+                <div class="font-semibold">Glossaire</div>
+                <div class="text-sm text-gray-500">Dictionnaire des termes scolaires</div>
+                <div class="text-xs text-gray-400 mt-1">25+ définitions par matière</div>
+              </div>
+            </a>
+            <a routerLink="/blog" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-xl mx-2 mt-1">
+              <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0">
+                📰
+              </div>
+              <div>
+                <div class="font-semibold">Blog & Articles</div>
+                <div class="text-sm text-gray-500">Conseils, actualités éducation</div>
+                <div class="text-xs text-gray-400 mt-1">Nouveautés chaque semaine</div>
+              </div>
+            </a>
+            <a routerLink="/calendar" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-xl mx-2 mt-1">
+              <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0">
+                📅
+              </div>
+              <div>
+                <div class="font-semibold">Calendrier</div>
+                <div class="text-sm text-gray-500">Examens, cours live, événements</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Communauté Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-[#1A73E8] transition-colors font-medium rounded-lg hover:bg-gray-50">
+            👥 Communauté
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left">
+            <a routerLink="/teachers" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-lg">👨‍🏫</span>
+              <div>
+                <div class="font-medium">Nos Professeurs</div>
+                <div class="text-xs text-gray-400">45+ enseignants qualifiés</div>
+              </div>
+            </a>
+            <div class="border-t border-gray-100 my-2"></div>
+            <a routerLink="/contact" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-[#1A73E8] transition-colors rounded-lg mx-2">
+              <span class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center text-lg">📞</span>
+              <div>
+                <div class="font-medium">Nous contacter</div>
+                <div class="text-xs text-gray-400">Support & assistance</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- À propos -->
+        <a routerLink="/about" class="px-3 py-2 text-gray-700 hover:text-[#1A73E8] transition-colors font-medium rounded-lg hover:bg-gray-50 flex items-center gap-1">
+          ℹ️ À propos
+        </a>
+      </div>
+
+      <!-- Desktop Auth Buttons -->
+      <div class="hidden md:flex items-center space-x-3">
+        <ng-container *ngIf="isLoggedIn(); else loggedOut">
+          <!-- User Menu -->
+          <div class="relative group">
+            <button class="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <div class="w-8 h-8 bg-gradient-to-r from-primary-600 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                {{ userInitials() }}
+              </div>
+              <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <a routerLink="/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                Tableau de bord
+              </a>
+              <a routerLink="/teacher" *ngIf="userRole() === 'teacher'" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                Espace professeur
+              </a>
+              <a routerLink="/parent" *ngIf="userRole() === 'parent'" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                Espace parent
+              </a>
+              <a routerLink="/admin" *ngIf="userRole() === 'admin'" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                Administration
+              </a>
+              <button (click)="logout()" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                Déconnexion
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #loggedOut>
+          <a routerLink="/login" class="text-gray-700 hover:text-primary-600 transition-colors font-medium">
+            Connexion
+          </a>
+          <a routerLink="/register" class="btn-gradient px-5 py-2.5 rounded-xl font-semibold text-sm">
+            S'inscrire
+          </a>
+        </ng-template>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="lg:hidden">
+        <button (click)="toggleMobileMenu()" class="p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 transition-colors">
+          <svg *ngIf="!isMobileMenuOpen()" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg *ngIf="isMobileMenuOpen()" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div *ngIf="isMobileMenuOpen()" class="lg:hidden animate-slide-down">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-white rounded-2xl shadow-xl mt-2 max-h-[80vh] overflow-y-auto">
+        <!-- Mobile Apprentissage -->
+        <div class="border-b border-gray-100 pb-2 mb-2">
+          <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">📚 Apprentissage</div>
+          <a routerLink="/courses" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            → Tous les cours
+          </a>
+          <a routerLink="/courses" [queryParams]="{level:'primaire'}" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors pl-6">
+            🎨 Primaire
+          </a>
+          <a routerLink="/courses" [queryParams]="{level:'college'}" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors pl-6">
+            🔬 Collège
+          </a>
+          <a routerLink="/courses" [queryParams]="{level:'lycee'}" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors pl-6">
+            📐 Lycée
+          </a>
+          <a routerLink="/courses" [queryParams]="{level:'bac'}" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors pl-6">
+            🎓 Bac & Examens
+          </a>
+          <a routerLink="/live-sessions" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            🎥 Sessions live
+          </a>
+          <a routerLink="/exams" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📝 Examens
+          </a>
+        </div>
+
+        <!-- Mobile Ressources -->
+        <div class="border-b border-gray-100 pb-2 mb-2">
+          <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">📖 Ressources</div>
+          <a routerLink="/library" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📚 Bibliothèque (PDF, eBooks)
+          </a>
+          <a routerLink="/glossary" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📖 Glossaire
+          </a>
+          <a routerLink="/blog" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📰 Blog
+          </a>
+          <a routerLink="/calendar" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📅 Calendrier
+          </a>
+        </div>
+
+        <!-- Mobile Communauté -->
+        <div class="border-b border-gray-100 pb-2 mb-2">
+          <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">👥 Communauté</div>
+          <a routerLink="/teachers" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            👨‍🏫 Professeurs
+          </a>
+          <a routerLink="/contact" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            📞 Contact
+          </a>
+        </div>
+
+        <!-- Mobile About -->
+        <div class="border-b border-gray-100 pb-2 mb-2">
+          <a routerLink="/about" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+            ℹ️ À propos
+          </a>
+        </div>
+        
+        <!-- Mobile Auth -->
+        <div class="pt-2">
+          <ng-container *ngIf="isLoggedIn(); else loggedOutMobile">
+            <a routerLink="/dashboard" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+              Tableau de bord
+            </a>
+            <button (click)="logout()" class="w-full text-left px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+              Déconnexion
+            </button>
+          </ng-container>
+          
+          <ng-template #loggedOutMobile>
+            <a routerLink="/login" (click)="closeMobileMenu()" class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+              Connexion
+            </a>
+            <a routerLink="/register" (click)="closeMobileMenu()" class="block px-3 py-2 text-primary-600 hover:bg-gray-50 rounded-lg transition-colors font-medium">
+              S'inscrire gratuitement
+            </a>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,248 @@
+<div class="min-h-screen bg-[#F8F9FA] py-8">
+  <div class="mx-auto w-full max-w-7xl px-4">
+    <!-- Loading -->
+    <div *ngIf="isLoading()" class="flex items-center justify-center py-20">
+      <div class="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-[#1A73E8]"></div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!isLoading()">
+      <!-- Header -->
+      <div class="mb-8 overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+              🎛️ Tableau de bord Administrateur
+            </h1>
+            <p class="mt-1 text-gray-600">Gestion complète de la plateforme</p>
+          </div>
+            <button (click)="exportReports()" class="rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition">
+              📊 Exporter rapports
+            </button>
+            <button (click)="openSettings()" class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+              ⚙️ Paramètres
+            </button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="mb-8 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div class="border-b border-gray-200">
+          <nav class="-mb-px flex">
+            <button 
+              (click)="activeTab.set('overview')"
+              [class]="activeTab() === 'overview' 
+                ? 'border-[#1A73E8] text-[#1A73E8]' 
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+              class="px-6 py-3 text-sm font-medium border-b-2 transition">
+              📊 Vue d'ensemble
+            </button>
+            <button 
+              (click)="activeTab.set('users')"
+              [class]="activeTab() === 'users' 
+                ? 'border-[#1A73E8] text-[#1A73E8]' 
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+              class="px-6 py-3 text-sm font-medium border-b-2 transition">
+              👥 Utilisateurs
+            </button>
+            <button 
+              (click)="activeTab.set('courses')"
+              [class]="activeTab() === 'courses' 
+                ? 'border-[#1A73E8] text-[#1A73E8]' 
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+              class="px-6 py-3 text-sm font-medium border-b-2 transition">
+              📚 Cours
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6">
+          <!-- Overview Tab -->
+          <div *ngIf="activeTab() === 'overview'">
+            <!-- Stats Grid -->
+            <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                    <span class="text-xl">👨‍🎓</span>
+                  </div>
+                  <div>
+                    <p class="text-2xl font-bold text-gray-900">{{ stats().totalStudents.toLocaleString() }}</p>
+                    <p class="text-sm text-gray-500">Étudiants</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                    <span class="text-xl">👨‍🏫</span>
+                  </div>
+                  <div>
+                    <p class="text-2xl font-bold text-gray-900">{{ stats().totalTeachers }}</p>
+                    <p class="text-sm text-gray-500">Professeurs</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                    <span class="text-xl">📖</span>
+                  </div>
+                  <div>
+                    <p class="text-2xl font-bold text-gray-900">{{ stats().totalCourses }}</p>
+                    <p class="text-sm text-gray-500">Cours</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
+                    <span class="text-xl">💰</span>
+                  </div>
+                  <div>
+                    <p class="text-2xl font-bold text-gray-900">{{ (stats().totalRevenue / 1000).toFixed(0) }}k</p>
+                    <p class="text-sm text-gray-500">Revenus (DH)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <button class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:shadow-lg transition">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                    <span class="text-xl">➕</span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-900">Ajouter un utilisateur</h3>
+                    <p class="text-sm text-gray-500">Créer un nouveau compte</p>
+                  </div>
+                </div>
+              </button>
+              <button class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:shadow-lg transition">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                    <span class="text-xl">✅</span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-900">Valider les cours</h3>
+                    <p class="text-sm text-gray-500">3 cours en attente</p>
+                  </div>
+                </div>
+              </button>
+              <button class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:shadow-lg transition">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                    <span class="text-xl">📈</span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-900">Voir les analytics</h3>
+                    <p class="text-sm text-gray-500">Statistiques détaillées</p>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Users Tab -->
+          <div *ngIf="activeTab() === 'users'">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-gray-900">👥 Gestion des utilisateurs</h2>
+              <button (click)="addUser()" class="rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition">
+                ➕ Ajouter un utilisateur
+              </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Nom</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Rôle</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Statut</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of recentUsers()" class="border-b border-gray-100">
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2">
+                        <div class="h-8 w-8 rounded-full bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] flex items-center justify-center text-white text-xs font-semibold">
+                          {{ user.name.charAt(0) }}
+                        </div>
+                        <span class="font-medium text-gray-900">{{ user.name }}</span>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-600">{{ user.email }}</td>
+                    <td class="px-4 py-3">
+                      <span [class]="getRoleBadgeClass(user.role)" class="px-2 py-1 text-xs font-medium rounded-full">
+                        {{ getRoleLabel(user.role) }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <span [class]="user.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'" class="px-2 py-1 text-xs font-medium rounded-full">
+                        {{ user.status === 'active' ? 'Actif' : 'Inactif' }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex gap-2">
+                        <button (click)="editUser(user)" class="text-[#1A73E8] hover:text-[#1A73E8]/80 text-sm">Modifier</button>
+                        <button (click)="deleteUser(user)" class="text-red-600 hover:text-red-700 text-sm">Supprimer</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Courses Tab -->
+          <div *ngIf="activeTab() === 'courses'">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-gray-900">📚 Gestion des cours</h2>
+              <button (click)="addCourse()" class="rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition">
+                ➕ Ajouter un cours
+              </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Titre</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Professeur</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Étudiants</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Statut</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of recentCourses()" class="border-b border-gray-100">
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ course.title }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-600">{{ course.teacher }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-600">{{ course.students }}</td>
+                    <td class="px-4 py-3">
+                      <span [class]="course.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'" class="px-2 py-1 text-xs font-medium rounded-full">
+                        {{ course.status === 'published' ? 'Publié' : 'Brouillon' }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex gap-2">
+                        <button (click)="viewCourseAction(course.title)" class="text-[#1A73E8] hover:text-[#1A73E8]/80 text-sm">Voir</button>
+                        <button (click)="editCourseAction(course.title)" class="text-[#1A73E8] hover:text-[#1A73E8]/80 text-sm">Modifier</button>
+                        <button *ngIf="course.status === 'draft'" (click)="publishCourseAction(course.title)" class="text-green-600 hover:text-green-700 text-sm">Publier</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
