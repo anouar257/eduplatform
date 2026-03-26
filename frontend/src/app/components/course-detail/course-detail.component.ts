@@ -1,7 +1,8 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 export type LessonVm = {
   id: string;
@@ -44,10 +45,23 @@ export type CommentVm = {
   styleUrls: ['./course-detail.component.scss']
 })
 export class CourseDetailComponent {
+  private authService = inject(AuthService);
   isLoading = signal(true);
   activeTab = signal<'description' | 'resources'>('description');
   selectedLessonId = signal<string | null>(null);
   newComment = signal('');
+  courseProgress = signal(35); // TODO: fetch real progress from backend
+  isOwned = signal(false); // TODO: fetch from enrollment service
+
+  // Role-aware computed signals
+  isLoggedIn = computed(() => this.authService.isLoggedIn);
+  userRole = computed(() => this.authService.userRole);
+  canBuy = computed(() => {
+    const role = this.userRole();
+    return role === 'student' || role === 'parent' || role === 'guest';
+  });
+  isAdmin = computed(() => this.userRole() === 'admin');
+  isTeacher = computed(() => this.userRole() === 'teacher');
 
   comments = signal<CommentVm[]>([
     {
@@ -88,7 +102,7 @@ export class CourseDetailComponent {
     return h > 0 ? `${h}h ${m}min` : `${m}min`;
   });
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     const courseId = this.route.snapshot.paramMap.get('id') ?? 'c1';
 
     this.courseData.set({
@@ -150,6 +164,22 @@ export class CourseDetailComponent {
 
   selectLesson(id: string) {
     this.selectedLessonId.set(id);
+  }
+
+  startLesson(lessonId: string) {
+    const currentCourseId = this.courseData()?.id;
+    if (currentCourseId) {
+      this.router.navigate(['/courses', currentCourseId, 'lessons', lessonId]);
+    }
+  }
+
+  goToCheckout() {
+    const courseId = this.courseData()?.id;
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login'], { queryParams: { returnUrl: `/checkout/${courseId}` } });
+    } else {
+      this.router.navigate(['/checkout', courseId]);
+    }
   }
 
   addComment() {

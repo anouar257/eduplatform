@@ -1,0 +1,65 @@
+<div class="min-h-screen bg-[#F8F9FA] py-8">
+  <div class="mx-auto w-full max-w-4xl px-4">
+    <div class="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h1 class="text-2xl font-bold text-gray-900">Créer un examen</h1>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #examForm="ngForm" class="space-y-6">
+      
+      <!-- Infos générales -->
+      <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Titre de l'examen</label>
+          <input type="text" [(ngModel)]="exam.title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-[#1A73E8]">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Durée (minutes)</label>
+          <input type="number" [(ngModel)]="exam.duration" name="duration" required min="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-[#1A73E8]">
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div *ngFor="let q of exam.questions; let i = index" class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-gray-900">Question {{ i + 1 }}</h3>
+          <button type="button" (click)="removeQuestion(i)" class="text-red-500 text-sm hover:underline" *ngIf="exam.questions.length > 1">Supprimer</button>
+        </div>
+        
+        <select [(ngModel)]="q.type" [name]="'type' + i" class="block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-[#1A73E8]">
+          <option value="multiple_choice">Choix Multiple (QCM)</option>
+          <option value="true_false">Vrai / Faux</option>
+        </select>
+
+        <input type="text" [(ngModel)]="q.text" [name]="'text' + i" placeholder="Intitulé de la question..." required class="block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-[#1A73E8]">
+
+        <!-- Options pour QCM -->
+        <div *ngIf="q.type === 'multiple_choice'" class="pl-4 border-l-2 border-gray-200 space-y-2">
+          <div *ngFor="let opt of q.options; let j = index" class="flex items-center gap-2">
+            <input type="radio" [name]="'correct' + i" [value]="j" [(ngModel)]="q.correctAnswer">
+            <input type="text" [(ngModel)]="q.options[j]" [name]="'opt' + i + '_' + j" placeholder="Option {{ j + 1 }}" required class="block w-full rounded-md border-gray-300 shadow-sm p-1 border text-sm">
+          </div>
+          <button type="button" (click)="addOption(i)" class="text-sm text-[#1A73E8] hover:underline">+ Ajouter une option</button>
+        </div>
+
+        <!-- Options pour Vrai/Faux -->
+        <div *ngIf="q.type === 'true_false'" class="pl-4 space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="radio" [name]="'correctTF' + i" value="true" [(ngModel)]="q.correctAnswer"> Vrai
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" [name]="'correctTF' + i" value="false" [(ngModel)]="q.correctAnswer"> Faux
+          </label>
+        </div>
+      </div>
+
+      <button type="button" (click)="addQuestion()" class="w-full rounded-2xl border-2 border-dashed border-[#1A73E8]/30 bg-[#1A73E8]/5 py-4 text-[#1A73E8] font-medium hover:bg-[#1A73E8]/10 transition">
+        + Ajouter une question
+      </button>
+
+      <div class="flex justify-end gap-3">
+        <button type="button" (click)="router.navigate(['/teacher'])" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">Annuler</button>
+        <button type="submit" [disabled]="!examForm.form.valid" class="rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-6 py-2 text-sm font-semibold text-white transition disabled:opacity-50 hover:opacity-90">Créer l'examen</button>
+      </div>
+    </form>
+  </div>
+</div>

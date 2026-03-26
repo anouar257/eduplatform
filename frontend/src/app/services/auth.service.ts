@@ -10,7 +10,7 @@ import { User, LoginRequest, RegisterRequest, AuthResponse } from '../models';
 export class AuthService {
   private readonly apiUrl = '/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  
+
   public currentUser$ = this.currentUserSubject.asObservable();
   public isLoggedIn$ = this.currentUserSubject.asObservable().pipe(
     map(user => !!user)
@@ -23,23 +23,32 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.checkAuthStatus();
+    this.loadUserFromStorage();
   }
 
-  private checkAuthStatus(): void {
-    this.http.get<AuthResponse>(`${this.apiUrl}/me`).subscribe({
-      next: (response) => {
-        this.currentUserSubject.next(response.user);
-      },
-      error: () => {
-        this.currentUserSubject.next(null);
-      }
-    });
+  /** On startup, check if we have a saved token and fetch user info */
+  private loadUserFromStorage(): void {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      this.http.get<AuthResponse>(`${this.apiUrl}/me`).subscribe({
+        next: (response) => {
+          this.currentUserSubject.next(response.user);
+        },
+        error: () => {
+          // Token expired or invalid — clean up
+          localStorage.removeItem('auth_token');
+          this.currentUserSubject.next(null);
+        }
+      });
+    }
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
+        if (response.token) {
+          localStorage.setItem('auth_token', response.token);
+        }
         this.currentUserSubject.next(response.user);
       })
     );
@@ -48,18 +57,29 @@ export class AuthService {
   register(userData: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData).pipe(
       tap(response => {
+        if (response.token) {
+          localStorage.setItem('auth_token', response.token);
+        }
         this.currentUserSubject.next(response.user);
       })
     );
   }
 
   logout(): void {
-    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
-      complete: () => {
-        this.currentUserSubject.next(null);
-        this.router.navigate(['/login']);
-      }
-    });
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
+        complete: () => this.clearSession()
+      });
+    } else {
+      this.clearSession();
+    }
+  }
+
+  private clearSession(): void {
+    localStorage.removeItem('auth_token');
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
   get currentUser(): User | null {
@@ -72,5 +92,9 @@ export class AuthService {
 
   get userRole(): string {
     return this.currentUserSubject.value?.role || 'guest';
+  }
+
+  get token(): string | null {
+    return localStorage.getItem('auth_token');
   }
 }

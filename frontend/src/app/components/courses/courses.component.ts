@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { CourseCardComponent, CourseCardVm } from '../course-card/course-card.component';
+import { SkeletonCardComponent } from '../../shared/components/skeleton-card/skeleton-card.component';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, CourseCardComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, CourseCardComponent, SkeletonCardComponent],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })

@@ -1,5 +1,6 @@
 <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-     [class]="isScrolled() ? 'navbar-solid' : 'navbar-transparent'">
+     [class.navbar-solid]="isScrolled()"
+     [class.navbar-transparent]="!isScrolled()">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
@@ -155,6 +156,14 @@
 
       <!-- Desktop Auth Buttons -->
       <div class="hidden md:flex items-center space-x-3">
+        <!-- Dark Mode Toggle -->
+        <button (click)="toggleTheme()" 
+                class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 group"
+                [title]="isDarkMode() ? 'Mode clair' : 'Mode sombre'">
+          <span class="text-xl transition-transform duration-500" [style.transform]="isDarkMode() ? 'rotate(360deg)' : 'rotate(0deg)'">
+            {{ isDarkMode() ? '☀️' : '🌙' }}
+          </span>
+        </button>
         <ng-container *ngIf="isLoggedIn(); else loggedOut">
           <!-- User Menu -->
           <div class="relative group">

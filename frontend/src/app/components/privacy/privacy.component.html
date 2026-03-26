@@ -1,0 +1,88 @@
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-600 to-blue-800 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        🔒 Politique de Confidentialité
+      </h1>
+      <p class="text-xl text-white/90 max-w-2xl mx-auto">
+        Votre vie privée est importante pour nous. Découvrez comment nous protégeons vos données.
+      </p>
+      <p class="text-sm text-white/70 mt-4">
+        Dernière mise à jour : {{ lastUpdated }}
+      </p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Introduction -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
+        <p class="text-gray-600 leading-relaxed">
+          EduPlatform s'engage à protéger la vie privée des utilisateurs de sa plateforme d'apprentissage en ligne.
+          Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons
+          vos informations personnelles lorsque vous utilisez nos services.
+        </p>
+      </div>
+
+      <!-- Sections -->
+      @for (section of sections; track section.title) {
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-sm font-bold">
+              {{ section.title.split('.')[0] }}
+            </span>
+            {{ section.title.substring(section.title.indexOf(' ') + 1) }}
+          </h2>
+          <div class="text-gray-600 leading-relaxed whitespace-pre-line">
+            {{ section.content }}
+          </div>
+        </div>
+      }
+
+      <!-- Contact Section -->
+      <div class="mt-12 bg-blue-50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Des questions sur vos données ?</h2>
+        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+          Notre équipe DPO (Délégué à la Protection des Données) est à votre disposition pour répondre à toutes vos interrogations.
+        </p>
+        <button (click)="contactUs()" class="inline-flex items-center gap-2 bg-[#1A73E8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+          <span>Nous contacter</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Download Section -->
+      <div class="bg-gradient-to-r from-[#1A73E8]/10 to-[#FF6D00]/10 rounded-2xl p-8 text-center">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">
+          Télécharger cette politique
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Vous pouvez télécharger une copie PDF de notre politique de confidentialité
+        </p>
+        <button class="inline-flex items-center gap-2 bg-[#1A73E8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Télécharger en PDF
+        </button>
+      </div>
+
+      <!-- Back Link -->
+      <div class="mt-8 text-center">
+        <a routerLink="/" class="text-[#1A73E8] hover:underline flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Retour à l'accueil
+        </a>
+      </div>
+
+    </div>
+  </section>
+</div>

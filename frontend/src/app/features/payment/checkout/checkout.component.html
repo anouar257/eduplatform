@@ -1,0 +1,312 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 py-12">
+  <div class="mx-auto max-w-5xl px-4">
+    
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Paiement sécurisé</h1>
+      <p class="text-gray-600 text-lg">Finalisez votre inscription au cours</p>
+    </div>
+
+    <!-- Parent: Child Selector -->
+    <div *ngIf="isParent()" class="mb-8 rounded-2xl border-2 border-purple-200 bg-purple-50/50 p-6 mx-auto max-w-lg">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+          <span class="text-lg">👨‍👧‍👦</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-gray-900">Pour quel enfant achetez-vous ce cours ?</h3>
+          <p class="text-sm text-gray-500">Le cours sera débloqué sur le compte de votre enfant</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <button *ngFor="let child of children()" 
+                (click)="selectedChildId.set(child.id)"
+                class="flex items-center gap-2 rounded-xl border-2 px-4 py-2.5 font-medium transition-all duration-300"
+                [class]="selectedChildId() === child.id 
+                  ? 'border-purple-500 bg-purple-100 text-purple-700 shadow-md' 
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300'">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-bold">
+            {{ child.name.charAt(0) }}
+          </div>
+          <div class="text-left">
+            <span class="block text-sm font-semibold">{{ child.name }}</span>
+            <span class="block text-xs opacity-70">{{ child.level }}</span>
+          </div>
+          <svg *ngIf="selectedChildId() === child.id" class="w-5 h-5 text-purple-600 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="flex items-center justify-center gap-0 mb-12 max-w-md mx-auto">
+      <!-- Step 1 -->
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500"
+             [class]="currentStep() >= 1 ? 'bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] text-white shadow-lg shadow-blue-500/30' : 'bg-gray-200 text-gray-500'">
+          <span *ngIf="currentStep() <= 1">1</span>
+          <svg *ngIf="currentStep() > 1" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <span class="text-sm font-semibold hidden sm:block" [class]="currentStep() >= 1 ? 'text-gray-900' : 'text-gray-400'">Formule</span>
+      </div>
+      <!-- Line -->
+      <div class="flex-1 h-1 mx-3 rounded-full bg-gray-200 overflow-hidden max-w-[80px]">
+        <div class="h-full bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] transition-all duration-700" [style.width]="currentStep() >= 2 ? '100%' : '0%'"></div>
+      </div>
+      <!-- Step 2 -->
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500"
+             [class]="currentStep() >= 2 ? 'bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] text-white shadow-lg shadow-blue-500/30' : 'bg-gray-200 text-gray-500'">
+          2
+        </div>
+        <span class="text-sm font-semibold hidden sm:block" [class]="currentStep() >= 2 ? 'text-gray-900' : 'text-gray-400'">Paiement</span>
+      </div>
+      <!-- Line -->
+      <div class="flex-1 h-1 mx-3 rounded-full bg-gray-200 overflow-hidden max-w-[80px]">
+        <div class="h-full bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] transition-all duration-700" [style.width]="isProcessing() ? '100%' : '0%'"></div>
+      </div>
+      <!-- Step 3 -->
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 bg-gray-200 text-gray-500">
+          3
+        </div>
+        <span class="text-sm font-semibold hidden sm:block text-gray-400">Confirmation</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Choose Plan -->
+    <div *ngIf="currentStep() === 1" class="animate-fade-in-up">
+      <!-- Course Summary Card -->
+      <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm mb-8 flex flex-col sm:flex-row items-start gap-5">
+        <img [src]="course().coverUrl" [alt]="course().title" class="w-full sm:w-32 h-24 object-cover rounded-xl shadow-sm">
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-gray-900 mb-1">{{ course().title }}</h2>
+          <p class="text-gray-600 text-sm mb-2">Par {{ course().teacher }} · {{ course().level }}</p>
+          <div class="flex flex-wrap gap-3 text-xs text-gray-500">
+            <span class="flex items-center gap-1">📚 {{ course().lessonCount }} leçons</span>
+            <span class="flex items-center gap-1">⏱️ {{ course().duration }}</span>
+            <span class="flex items-center gap-1">⭐ {{ course().rating }}/5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Plans -->
+      <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Choisissez votre formule</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div *ngFor="let plan of pricingPlans()" 
+             (click)="selectPlan(plan)"
+             class="relative rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
+             [class]="selectedPlan()?.id === plan.id 
+               ? 'border-[#1A73E8] bg-blue-50/50 shadow-lg shadow-blue-500/10' 
+               : 'border-gray-200 bg-white hover:border-gray-300'">
+          
+          <!-- Popular Badge -->
+          <div *ngIf="plan.popular" class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">Populaire</span>
+          </div>
+          
+          <!-- Check icon -->
+          <div class="absolute top-4 right-4 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300"
+               [class]="selectedPlan()?.id === plan.id ? 'bg-[#1A73E8] border-[#1A73E8]' : 'border-gray-300'">
+            <svg *ngIf="selectedPlan()?.id === plan.id" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          
+          <h4 class="text-lg font-bold text-gray-900 mb-2">{{ plan.name }}</h4>
+          <div class="flex items-baseline gap-1 mb-4">
+            <span class="text-4xl font-extrabold text-gray-900">{{ plan.price }}</span>
+            <span class="text-gray-500 text-sm">€ / {{ plan.period }}</span>
+          </div>
+          <ul class="space-y-2.5">
+            <li *ngFor="let feature of plan.features" class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Continue Button -->
+      <div class="text-center">
+        <button (click)="nextStep()" 
+                [disabled]="!isStep1Valid()"
+                class="px-10 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 text-sm shadow-lg"
+                [class]="isStep1Valid() 
+                  ? 'bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] hover:opacity-90 hover:shadow-xl cursor-pointer' 
+                  : 'bg-gray-300 cursor-not-allowed shadow-none'">
+          Continuer vers le paiement →
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Payment Form -->
+    <div *ngIf="currentStep() === 2" class="animate-fade-in-up">
+      <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- Payment Form Card -->
+        <div class="flex-1">
+          <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+            <div class="flex items-center justify-between mb-8">
+              <h2 class="text-xl font-bold text-gray-900">Informations de paiement</h2>
+              <!-- Card Type Icons -->
+              <div class="flex gap-2 items-center">
+                <div class="px-2 py-1 rounded border text-xs font-bold transition-all duration-300" 
+                     [class]="cardType() === 'visa' ? 'border-blue-500 text-blue-600 bg-blue-50 scale-110' : 'border-gray-200 text-gray-400'">VISA</div>
+                <div class="px-2 py-1 rounded border text-xs font-bold transition-all duration-300" 
+                     [class]="cardType() === 'mastercard' ? 'border-orange-500 text-orange-600 bg-orange-50 scale-110' : 'border-gray-200 text-gray-400'">MC</div>
+                <div class="px-2 py-1 rounded border text-xs font-bold transition-all duration-300" 
+                     [class]="cardType() === 'amex' ? 'border-green-500 text-green-600 bg-green-50 scale-110' : 'border-gray-200 text-gray-400'">AMEX</div>
+              </div>
+            </div>
+
+            <!-- Virtual Card Preview -->
+            <div class="relative w-full max-w-sm mx-auto mb-8 aspect-[1.6/1] rounded-2xl overflow-hidden shadow-2xl"
+                 [class]="cardType() === 'visa' ? 'bg-gradient-to-br from-blue-600 to-blue-900' 
+                         : cardType() === 'mastercard' ? 'bg-gradient-to-br from-orange-500 to-red-700' 
+                         : cardType() === 'amex' ? 'bg-gradient-to-br from-green-600 to-teal-800' 
+                         : 'bg-gradient-to-br from-slate-600 to-slate-900'">
+              <!-- Card Pattern -->
+              <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-6 right-6 w-16 h-16 rounded-full border-2 border-white"></div>
+                <div class="absolute top-6 right-14 w-16 h-16 rounded-full border-2 border-white"></div>
+              </div>
+              <!-- Card Content -->
+              <div class="relative p-6 h-full flex flex-col justify-between text-white">
+                <div class="flex justify-between items-start">
+                  <div class="w-12 h-9 rounded bg-yellow-300/80"></div>
+                  <span class="text-sm font-bold opacity-80 uppercase">{{ cardType() === 'unknown' ? 'Card' : cardType() }}</span>
+                </div>
+                <div>
+                  <p class="text-lg tracking-[0.25em] font-mono mb-3 opacity-90">{{ formattedCardDisplay() }}</p>
+                  <div class="flex justify-between items-end">
+                    <div>
+                      <p class="text-[10px] opacity-50 uppercase">Titulaire</p>
+                      <p class="text-sm font-semibold tracking-wider">{{ cardName() || 'VOTRE NOM' }}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-[10px] opacity-50 uppercase">Expire</p>
+                      <p class="text-sm font-semibold">{{ cardExpiry() || 'MM/YY' }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Fields -->
+            <form (submit)="$event.preventDefault(); processPayment()" class="space-y-5">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nom sur la carte</label>
+                <input type="text" required 
+                       [ngModel]="cardName()" (ngModelChange)="cardName.set($event)"
+                       class="w-full rounded-xl border border-gray-300 p-3 text-gray-900 focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                       placeholder="Jean Dupont">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Numéro de carte</label>
+                <input type="text" required 
+                       [value]="cardNumber()" (input)="onCardNumberInput($event)"
+                       class="w-full rounded-xl border border-gray-300 p-3 text-gray-900 focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-mono tracking-wider bg-white"
+                       placeholder="0000 0000 0000 0000" maxlength="19">
+              </div>
+
+              <div class="flex gap-4">
+                <div class="w-1/2">
+                  <label class="block text-sm font-semibold text-gray-700 mb-1.5">Expiration</label>
+                  <input type="text" required 
+                         [value]="cardExpiry()" (input)="onExpiryInput($event)"
+                         class="w-full rounded-xl border border-gray-300 p-3 text-gray-900 focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                         placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="w-1/2">
+                  <label class="block text-sm font-semibold text-gray-700 mb-1.5">CVC</label>
+                  <input type="text" required 
+                         [value]="cardCvc()" (input)="onCvcInput($event)"
+                         class="w-full rounded-xl border border-gray-300 p-3 text-gray-900 focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white"
+                         placeholder="123" maxlength="4">
+                </div>
+              </div>
+
+              <!-- Terms -->
+              <label class="flex items-start gap-3 cursor-pointer mt-4">
+                <input type="checkbox" [ngModel]="acceptTerms()" (ngModelChange)="acceptTerms.set($event)"
+                       class="mt-1 w-4 h-4 rounded border-gray-300 text-[#1A73E8] focus:ring-[#1A73E8]">
+                <span class="text-sm text-gray-600">J'accepte les <a routerLink="/terms" class="text-[#1A73E8] underline">conditions générales</a> et la <a routerLink="/privacy" class="text-[#1A73E8] underline">politique de confidentialité</a></span>
+              </label>
+
+              <!-- Buttons -->
+              <div class="flex gap-4 mt-6">
+                <button type="button" (click)="prevStep()" 
+                        class="px-6 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold text-sm hover:bg-gray-50 transition-all">
+                  ← Retour
+                </button>
+                <button type="submit" 
+                        [disabled]="!isStep2Valid() || isProcessing()"
+                        class="flex-1 py-3 rounded-xl font-semibold text-white text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                        [class]="isStep2Valid() && !isProcessing() 
+                          ? 'bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] hover:opacity-90 hover:shadow-xl cursor-pointer' 
+                          : 'bg-gray-300 cursor-not-allowed shadow-none'">
+                  <!-- Spinner -->
+                  <svg *ngIf="isProcessing()" class="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" fill="currentColor" class="opacity-75"/></svg>
+                  {{ isProcessing() ? 'Traitement en cours...' : 'Payer ' + selectedPlan()?.price + ' €' }}
+                </button>
+              </div>
+            </form>
+
+            <!-- Security Badge -->
+            <div class="flex items-center justify-center gap-3 mt-6 pt-6 border-t border-gray-100">
+              <svg class="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <span class="text-xs text-gray-500">Paiement 100% sécurisé · Chiffrement SSL 256-bit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="w-full lg:w-80">
+          <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sticky top-24">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">Résumé</h2>
+            
+            <div class="flex items-start gap-4 mb-4 pb-4 border-b border-gray-100">
+              <img [src]="course().coverUrl" [alt]="course().title" class="w-20 h-16 object-cover rounded-lg shadow-sm">
+              <div class="flex-1">
+                <h3 class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">{{ course().title }}</h3>
+                <p class="text-xs text-gray-500 mt-1">{{ course().teacher }}</p>
+              </div>
+            </div>
+
+            <div *ngIf="selectedPlan()" class="space-y-2 mb-4 pb-4 border-b border-gray-100">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Formule</span>
+                <span class="font-semibold text-gray-900">{{ selectedPlan()?.name }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Période</span>
+                <span class="text-gray-900">{{ selectedPlan()?.period }}</span>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center font-bold text-xl text-gray-900">
+              <span>Total</span>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#1A73E8] to-[#FF6D00]">{{ selectedPlan()?.price || '—' }} €</span>
+            </div>
+
+            <!-- Guarantees -->
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span>✅</span>
+                <span>Satisfait ou remboursé (30 jours)</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span>🔒</span>
+                <span>Données cryptées et sécurisées</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span>💬</span>
+                <span>Support 24/7 inclus</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

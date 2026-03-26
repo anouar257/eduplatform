@@ -1,6 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../services/toast.service';
 
 export type ChildVm = {
@@ -27,13 +28,16 @@ export type SessionVm = {
 @Component({
   selector: 'app-parent-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './parent-dashboard.component.html',
   styleUrls: ['./parent-dashboard.component.scss']
 })
 export class ParentDashboardComponent {
   toast = inject(ToastService);
+  router = inject(Router);
   isLoading = signal(true);
+  showAddChildForm = signal(false);
+  newChildEmail = signal('');
 
   parentName = signal('Mme Fatima');
 
@@ -91,5 +95,40 @@ export class ParentDashboardComponent {
   
   viewSessionDetails(session: SessionVm) {
     this.toast.success(`Chargement des détails de la session : ${session.title}...`);
+  }
+
+  toggleAddChildForm() {
+    this.showAddChildForm.set(!this.showAddChildForm());
+  }
+
+  addChild() {
+    const email = this.newChildEmail().trim();
+    if (!email || !email.includes('@')) {
+      this.toast.error('Veuillez entrer une adresse email valide.');
+      return;
+    }
+    // Mock: simulate adding a child via API
+    const newChild: ChildVm = {
+      id: 'ch' + Date.now(),
+      name: email.split('@')[0],
+      level: 'Nouveau',
+      avatarUrl: ''
+    };
+    this.children.set([...this.children(), newChild]);
+    this.newChildEmail.set('');
+    this.showAddChildForm.set(false);
+    this.toast.success(`Invitation envoyée à ${email} ! L'enfant sera lié à votre compte.`);
+  }
+
+  removeChild(childId: string) {
+    const child = this.children().find(c => c.id === childId);
+    this.children.set(this.children().filter(c => c.id !== childId));
+    if (child) {
+      this.toast.info(`${child.name} a été retiré de votre liste.`);
+    }
+  }
+
+  buyCourseForChild(childId: string) {
+    this.router.navigate(['/courses']);
   }
 }

@@ -56,6 +56,17 @@
               <span>{{ totalDuration() }}</span>
             </div>
 
+            <!-- Global Progress Bar -->
+            <div class="mt-6">
+              <div class="flex justify-between text-sm font-medium text-gray-700 mb-1">
+                <span>Progression</span>
+                <span>{{ courseProgress() }}%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-gradient-to-r from-[#1A73E8] to-[#FF6D00] h-2 rounded-full transition-all" [style.width.%]="courseProgress()"></div>
+              </div>
+            </div>
+
             <!-- Tabs -->
             <div class="mt-6 border-b border-gray-200">
               <nav class="-mb-px flex gap-6">
@@ -111,9 +122,29 @@
               </div>
             </div>
 
-            <!-- Enroll Button -->
-            <button class="mt-6 w-full rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2">
-              S'inscrire à ce cours
+            <!-- Dynamic Enrollment Button -->
+            <!-- Already Owned -->
+            <a *ngIf="isOwned()" routerLink="/dashboard" 
+               class="mt-6 w-full rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 text-center block">
+              ✅ Continuer l'apprentissage
+            </a>
+
+            <!-- Admin / Teacher — Full Access -->
+            <div *ngIf="!isOwned() && (isAdmin() || isTeacher())" 
+                 class="mt-6 w-full rounded-xl bg-gray-100 border border-gray-200 py-3 text-sm font-semibold text-gray-600 text-center">
+              🔓 Accès complet ({{ userRole() === 'admin' ? 'Administrateur' : 'Professeur' }})
+            </div>
+
+            <!-- Guest — Not Logged In -->
+            <button *ngIf="!isOwned() && !isLoggedIn() && canBuy()" (click)="goToCheckout()"
+                    class="mt-6 w-full rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2">
+              🔐 Connectez-vous pour acheter ce cours
+            </button>
+
+            <!-- Student / Parent — Buy Button -->
+            <button *ngIf="!isOwned() && isLoggedIn() && canBuy()" (click)="goToCheckout()"
+                    class="mt-6 w-full rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2">
+              🛒 Acheter ce cours
             </button>
           </div>
         </div>
@@ -145,9 +176,9 @@
                     <span *ngIf="lesson.isFree" class="ml-1 text-[#34A853]">• Gratuit</span>
                   </p>
                 </div>
-                <svg *ngIf="!lesson.isFree" class="h-5 w-5 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+                <button (click)="startLesson(lesson.id); $event.stopPropagation()" class="rounded-lg bg-[#1A73E8]/10 px-3 py-1.5 text-xs font-semibold text-[#1A73E8] hover:bg-[#1A73E8]/20 transition shrink-0">
+                  Commencer
+                </button>
               </div>
             </button>
           </div>

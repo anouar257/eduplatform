@@ -1,0 +1,79 @@
+<div class="min-h-screen bg-black text-white flex flex-col">
+  <!-- Top bar -->
+  <div class="flex items-center justify-between bg-gray-900 p-4 border-b border-gray-800">
+    <div class="flex items-center gap-4">
+      <button (click)="goBack()" class="text-gray-400 hover:text-white transition">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+      </button>
+      <h1 class="text-lg font-semibold truncate">{{ lesson.title }}</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-2 text-sm text-gray-400">
+        <span>Progression du cours</span>
+        <div class="h-2 w-24 bg-gray-700 rounded-full overflow-hidden">
+          <div class="h-full bg-[#1A73E8]" [style.width.%]="courseProgress"></div>
+        </div>
+        <span>{{ courseProgress }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+    <!-- Main Player -->
+    <div class="flex-1 overflow-y-auto p-4 bg-black flex flex-col">
+      <div class="max-w-5xl mx-auto w-full flex-1 flex flex-col">
+        <!-- Video Player -->
+        <div *ngIf="lesson.type === 'video'" class="aspect-video w-full bg-gray-900 rounded-xl overflow-hidden mb-6 shadow-2xl">
+          <iframe 
+            [src]="safeVideoUrl" 
+            class="w-full h-full" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- PDF Viewer (Mock text for now, could use ngx-extended-pdf-viewer in reality) -->
+        <div *ngIf="lesson.type === 'pdf'" class="flex-1 bg-white text-gray-900 rounded-xl p-8 mb-6 overflow-y-auto">
+          <h2 class="text-2xl font-bold mb-4">Document PDF: {{ lesson.title }}</h2>
+          <p class="text-gray-600 mb-4">{{ lesson.content }}</p>
+          <div class="flex items-center justify-center h-64 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+            <span class="text-gray-500">[PDF Viewer Placeholder pour {{ lesson.pdfUrl }}]</span>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center bg-gray-900 p-4 rounded-xl border border-gray-800">
+          <div>
+            <h2 class="text-xl font-bold">{{ lesson.title }}</h2>
+            <p class="text-gray-400 mt-1 text-sm">Leçon {{ lesson.order }}</p>
+          </div>
+          <button (click)="markAsComplete()" class="rounded-xl bg-[#1A73E8] px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">
+            ✅ Marquer comme terminé
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar / Playlist -->
+    <div class="w-full lg:w-80 bg-gray-900 border-l border-gray-800 overflow-y-auto">
+      <div class="p-4 border-b border-gray-800">
+        <h3 class="font-bold text-lg">Contenu du cours</h3>
+      </div>
+      <div class="p-2 space-y-1">
+        <!-- Mock lessons list -->
+        <button class="w-fulltext-left flex flex-col gap-1 p-3 rounded-lg bg-gray-800 border border-gray-700">
+          <div class="flex items-center justify-between w-full">
+            <span class="text-sm font-medium text-white truncate text-left w-full pl-2">1. Introduction aux fractions</span>
+            <svg class="h-4 w-4 text-[#1A73E8] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          </div>
+        </button>
+        <button class="w-full text-left flex flex-col gap-1 p-3 rounded-lg hover:bg-gray-800/50 border border-transparent transition">
+          <div class="flex items-center justify-between w-full">
+            <span class="text-sm font-medium text-gray-400 truncate text-left w-full pl-2">2. Exercices pratiques</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

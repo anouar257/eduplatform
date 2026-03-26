@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 export type ArticleVm = {
   id: string;
@@ -21,8 +22,18 @@ export type ArticleVm = {
   templateUrl: './blog.component.html'
 })
 export class BlogComponent {
+  toast = inject(ToastService);
   isLoading = signal(true);
   selectedCategory = signal('all');
+
+  subscribeNewsletter(emailInput: HTMLInputElement) {
+    if (!emailInput.value) {
+      this.toast.error("Veuillez entrer une adresse email.");
+      return;
+    }
+    this.toast.success("Parfait ! Vous êtes maintenant abonné à la newsletter.");
+    emailInput.value = '';
+  }
 
   categories = signal([
     'all', 'Actualités', 'Conseils', 'Parentalité', 'Technologie', 'Examens'

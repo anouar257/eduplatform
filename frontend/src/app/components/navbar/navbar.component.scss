@@ -1,11 +1,11 @@
 .navbar-transparent {
-  background: rgba(255, 255, 255, 0.95);
+  background-color: var(--navbar-bg);
   backdrop-filter: blur(10px);
 }
 
 .navbar-solid {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--navbar-solid);
+  box-shadow: 0 1px 3px 0 var(--shadow-color);
 }
 
 .group:hover .group-hover\:opacity-100 {

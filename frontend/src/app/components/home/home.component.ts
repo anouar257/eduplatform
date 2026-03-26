@@ -1,4 +1,4 @@
-import { Component, signal, computed, OnInit } from '@angular/core';
+import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -39,10 +39,36 @@ export type SessionVm = {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   isLoading = signal(true);
   currentSlideIndex = signal(0);
+  activeTestimonialIndex = signal(0);
+  private testimonialInterval: any;
   currentYear = new Date().getFullYear();
+
+  testimonialCards = signal([
+    {
+      id: 1,
+      image: 'assets/images/home/classroom.jpg',
+      quote: "Une expérience d'apprentissage interactive qui m'a aidé à valider mon année avec mention.",
+      author: "Youssef, Étudiant Universitaire",
+      tag: "Apprentissage Collaboratif"
+    },
+    {
+      id: 2,
+      image: 'assets/images/home/student.jpg',
+      quote: "Des centaines de cours en vidéo HD et des exercices pratiques pour s'entraîner à la maison.",
+      author: "Sarah, Lycéenne",
+      tag: "Autonomie & Succès"
+    },
+    {
+      id: 3,
+      image: 'assets/images/home/teacher.jpg',
+      quote: "En tant que professeur, cette plateforme me permet d'accompagner mes élèves avec des outils de pointe.",
+      author: "Prof. Khalid, Expert en Ingénierie",
+      tag: "Pédagogie d'Excellence"
+    }
+  ]);
 
   subjects = signal<SubjectVm[]>([
     { id: '1', name: 'Mathématiques', icon: '📐', color: 'blue' },
@@ -133,6 +159,31 @@ export class HomeComponent {
 
   constructor(private router: Router) {
     setTimeout(() => this.isLoading.set(false), 500);
+  }
+
+  ngOnInit() {
+    // Auto-play for the testimonial photo deck
+    this.testimonialInterval = setInterval(() => {
+      this.nextTestimonial();
+    }, 5000);
+  }
+
+  ngOnDestroy() {
+    if (this.testimonialInterval) {
+      clearInterval(this.testimonialInterval);
+    }
+  }
+
+  nextTestimonial() {
+    this.activeTestimonialIndex.set((this.activeTestimonialIndex() + 1) % this.testimonialCards().length);
+  }
+
+  setTestimonial(index: number) {
+    this.activeTestimonialIndex.set(index);
+    if (this.testimonialInterval) {
+      clearInterval(this.testimonialInterval);
+      this.testimonialInterval = setInterval(() => this.nextTestimonial(), 5000);
+    }
   }
 
   exploreCourses() {

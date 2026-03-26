@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-[#F8F9FA] py-8">
+  <div class="mx-auto w-full max-w-3xl px-4">
+    <div class="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h1 class="text-2xl font-bold text-gray-900">Créer un nouveau cours</h1>
+      <p class="mt-1 text-gray-600">Remplissez les informations ci-dessous pour ajouter un cours à votre catalogue.</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #courseForm="ngForm" class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm space-y-6">
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Titre du cours</label>
+        <input type="text" [(ngModel)]="course.title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border" placeholder="Ex: Mathématiques de base">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea [(ngModel)]="course.description" name="description" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border" placeholder="Ce cours couvre..."></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Matière</label>
+          <select [(ngModel)]="course.subjectId" name="subjectId" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border">
+            <option value="">Sélectionner</option>
+            <option value="math">Mathématiques</option>
+            <option value="phys">Physique</option>
+            <option value="info">Informatique</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Niveau</label>
+          <select [(ngModel)]="course.levelId" name="levelId" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border">
+            <option value="">Sélectionner</option>
+            <option value="lycee">Lycée</option>
+            <option value="univ">Université</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">URL de l'image de couverture</label>
+        <input type="url" [(ngModel)]="course.imageUrl" name="imageUrl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border" placeholder="https://...">
+      </div>
+
+      <div class="flex items-center gap-4">
+        <label class="flex items-center">
+          <input type="checkbox" [(ngModel)]="course.isFree" name="isFree" class="rounded border-gray-300 text-[#1A73E8] focus:ring-[#1A73E8]">
+          <span class="ml-2 text-sm text-gray-700">Cours gratuit</span>
+        </label>
+        <div *ngIf="!course.isFree" class="flex-1">
+          <label class="block text-sm font-medium text-gray-700">Prix (€)</label>
+          <input type="number" [(ngModel)]="course.price" name="price" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1A73E8] focus:ring-[#1A73E8] p-2 border">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+        <button type="button" (click)="router.navigate(['/teacher'])" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">Annuler</button>
+        <button type="submit" [disabled]="!courseForm.form.valid" class="rounded-xl bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-6 py-2 text-sm font-semibold text-white transition disabled:opacity-50 hover:opacity-90">Créer le cours</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -24,20 +24,60 @@
 
       <!-- Children Selector -->
       <div class="mb-8 overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 class="mb-4 text-lg font-semibold text-gray-900">👨‍👩‍👧‍👦 Sélectionner un enfant</h2>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-900">👨‍👩‍👧‍👦 Mes enfants</h2>
+          <button (click)="toggleAddChildForm()" 
+                  class="flex items-center gap-1.5 rounded-lg bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Ajouter un enfant
+          </button>
+        </div>
+
+        <!-- Add Child Form (collapsible) -->
+        <div *ngIf="showAddChildForm()" class="mb-4 p-4 rounded-xl bg-blue-50 border border-blue-200 animate-fade-in-up">
+          <p class="text-sm font-semibold text-gray-700 mb-2">Entrez l'adresse email de votre enfant :</p>
+          <div class="flex gap-2">
+            <input type="email" placeholder="enfant@email.com"
+                   [ngModel]="newChildEmail()" (ngModelChange)="newChildEmail.set($event)"
+                   class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-500/20 outline-none bg-white">
+            <button (click)="addChild()" 
+                    class="rounded-lg bg-[#1A73E8] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1A73E8]/90 transition">
+              Envoyer l'invitation
+            </button>
+            <button (click)="toggleAddChildForm()" class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 transition">
+              Annuler
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">📧 Une invitation sera envoyée à cette adresse pour lier le compte de votre enfant.</p>
+        </div>
+
+        <!-- Children List -->
         <div class="flex flex-wrap gap-3">
-          <button 
-            *ngFor="let child of children()" 
-            (click)="selectChild(child.id)"
-            [class]="selectedChildId() === child.id 
-              ? 'border-[#1A73E8] bg-[#1A73E8]/10 text-[#1A73E8]' 
-              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'"
-            class="flex items-center gap-2 rounded-xl border px-4 py-2 font-medium transition">
-            <div class="h-8 w-8 rounded-full bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] flex items-center justify-center text-white text-sm font-semibold">
-              {{ child.name.charAt(0) }}
-            </div>
-            <span>{{ child.name }}</span>
-            <span class="text-sm opacity-70">({{ child.level }})</span>
+          <div *ngFor="let child of children()" class="relative group">
+            <button 
+              (click)="selectChild(child.id)"
+              [class]="selectedChildId() === child.id 
+                ? 'border-[#1A73E8] bg-[#1A73E8]/10 text-[#1A73E8]' 
+                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'"
+              class="flex items-center gap-2 rounded-xl border px-4 py-2 font-medium transition">
+              <div class="h-8 w-8 rounded-full bg-gradient-to-br from-[#1A73E8] to-[#FF6D00] flex items-center justify-center text-white text-sm font-semibold">
+                {{ child.name.charAt(0) }}
+              </div>
+              <span>{{ child.name }}</span>
+              <span class="text-sm opacity-70">({{ child.level }})</span>
+            </button>
+            <!-- Remove Button -->
+            <button (click)="removeChild(child.id)" 
+                    class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                    title="Retirer cet enfant">×</button>
+          </div>
+        </div>
+
+        <!-- Buy Course CTA -->
+        <div *ngIf="selectedChildId()" class="mt-4 pt-4 border-t border-gray-100">
+          <button (click)="buyCourseForChild(selectedChildId())" 
+                  class="flex items-center gap-2 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition shadow-sm">
+            🛒 Acheter un cours pour {{ children()[0]?.name || 'cet enfant' }}
           </button>
         </div>
       </div>

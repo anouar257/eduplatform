@@ -43,7 +43,14 @@ export class RegisterComponent {
 
     this.authService.register(registerData).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        const role = this.authService.userRole;
+        let route = '/dashboard'; // default student dashboard
+        
+        if (role === 'teacher') route = '/teacher';
+        else if (role === 'parent') route = '/parent';
+        else if (role === 'admin') route = '/admin';
+        
+        this.router.navigate([route]);
       },
       error: () => {
         this.errorMessage.set("L'inscription a échoué. Veuillez réessayer.");
