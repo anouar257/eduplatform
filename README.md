@@ -46,7 +46,7 @@ Chaque service doit être lancé via son dossier respectif dans `backend/`.
 - **Micro-animations** et design moderne (Glassmorphism / Confetti).
 
 ## 🏗️ Ce qu'il reste à faire (Back-End)
-Consultez le fichier `brain/walkthrough.md` pour le détail des microservices restants :
+Consultez le fichier [walkthrough.md](./walkthrough.md) pour le détail des microservices restants :
 - `course-service`
 - `exam-service`
 - `payment-service`
