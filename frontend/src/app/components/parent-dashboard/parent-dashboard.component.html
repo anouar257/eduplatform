@@ -77,7 +77,7 @@
         <div *ngIf="selectedChildId()" class="mt-4 pt-4 border-t border-gray-100">
           <button (click)="buyCourseForChild(selectedChildId())" 
                   class="flex items-center gap-2 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition shadow-sm">
-            🛒 Acheter un cours pour {{ children()[0]?.name || 'cet enfant' }}
+            🛒 Acheter un cours pour {{ children()[0].name || 'cet enfant' }}
           </button>
         </div>
       </div>
