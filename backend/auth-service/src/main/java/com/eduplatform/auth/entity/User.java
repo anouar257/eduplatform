@@ -30,6 +30,7 @@ public class User {
     private String avatar;
     private String bio;
 
+    @Builder.Default
     private boolean enabled = true;
 
     @Column(updatable = false)

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, map } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { User, LoginRequest, RegisterRequest, AuthResponse } from '../models';
 
@@ -35,32 +35,47 @@ export class AuthService {
           this.currentUserSubject.next(response.user);
         },
         error: () => {
-          // Token expired or invalid — clean up
-          localStorage.removeItem('auth_token');
-          this.currentUserSubject.next(null);
+          // Error interceptor will attempt to refresh. If it fails, session is cleared there.
         }
       });
     }
   }
 
+  private saveTokens(response: AuthResponse): void {
+    if (response.token) {
+      localStorage.setItem('auth_token', response.token);
+    }
+    if (response.refreshToken) {
+      localStorage.setItem('refresh_token', response.refreshToken);
+    }
+    if (response.user) {
+      this.currentUserSubject.next(response.user);
+    }
+  }
+
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
-      tap(response => {
-        if (response.token) {
-          localStorage.setItem('auth_token', response.token);
-        }
-        this.currentUserSubject.next(response.user);
-      })
+      tap(response => this.saveTokens(response))
     );
   }
 
   register(userData: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData).pipe(
-      tap(response => {
-        if (response.token) {
-          localStorage.setItem('auth_token', response.token);
-        }
-        this.currentUserSubject.next(response.user);
+      tap(response => this.saveTokens(response))
+    );
+  }
+
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      this.clearSession();
+      return throwError(() => new Error('No refresh token available'));
+    }
+
+    return this.http.post<AuthResponse>(`${this.apiUrl}/refresh-token`, { refreshToken }).pipe(
+      tap({
+        next: (response) => this.saveTokens(response),
+        error: () => this.clearSession()
       })
     );
   }
@@ -76,8 +91,9 @@ export class AuthService {
     }
   }
 
-  private clearSession(): void {
+  clearSession(): void {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('refresh_token');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
