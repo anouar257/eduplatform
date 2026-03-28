@@ -30,7 +30,10 @@ spring:
               - PUT
               - DELETE
               - OPTIONS
-            allowedHeaders: "*"
+            allowedHeaders:
+              - Authorization
+              - Content-Type
+              - X-Requested-With
             allowCredentials: true
             maxAge: 3600
 
@@ -42,10 +45,13 @@ eureka:
     prefer-ip-address: true
 
 jwt:
-  secret: EduPlatformSecretKey2024VeryLongAndSecureKeyForJWTTokenGeneration123456
+  secret: ${JWT_SECRET:EduPlatformSecretKey2024VeryLongAndSecureKeyForJWTTokenGeneration123456}
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized

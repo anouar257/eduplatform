@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
                     .enabled(true)
                     .build();
             userRepository.save(admin);
-            log.info("✅ Admin account created: admin@eduplatform.com / Admin@2024");
+            log.info("✅ Admin account created: admin@eduplatform.com");
         }
 
         // Create demo teacher
@@ -43,7 +43,7 @@ public class DataInitializer implements CommandLineRunner {
                     .enabled(true)
                     .build();
             userRepository.save(teacher);
-            log.info("✅ Teacher account created: prof@eduplatform.com / Prof@2024");
+            log.info("✅ Teacher account created: prof@eduplatform.com");
         }
 
         // Create demo student
@@ -57,7 +57,7 @@ public class DataInitializer implements CommandLineRunner {
                     .enabled(true)
                     .build();
             userRepository.save(student);
-            log.info("✅ Student account created: etudiant@eduplatform.com / Etudiant@2024");
+            log.info("✅ Student account created: etudiant@eduplatform.com");
         }
 
         // Create demo parent
@@ -71,7 +71,7 @@ public class DataInitializer implements CommandLineRunner {
                     .enabled(true)
                     .build();
             userRepository.save(parent);
-            log.info("✅ Parent account created: parent@eduplatform.com / Parent@2024");
+            log.info("✅ Parent account created: parent@eduplatform.com");
         }
     }
 }

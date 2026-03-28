@@ -14,7 +14,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -28,11 +28,15 @@ eureka:
     prefer-ip-address: true
 
 jwt:
-  secret: EduPlatformSecretKey2024VeryLongAndSecureKeyForJWTTokenGeneration123456
-  expiration: 86400000
+  secret: ${JWT_SECRET:EduPlatformSecretKey2024VeryLongAndSecureKeyForJWTTokenGeneration123456}
+  expiration: 900000            # 15 minutes (Access Token)
+  refresh-expiration: 604800000 # 7 jours (Refresh Token)
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized

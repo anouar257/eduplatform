@@ -15,6 +15,9 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
+    private static final String ISSUER = "eduplatform-auth";
+    private static final String AUDIENCE = "eduplatform-api";
+
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
@@ -22,6 +25,8 @@ public class JwtUtil {
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
+                .requireIssuer(ISSUER)
+                .requireAudience(AUDIENCE)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

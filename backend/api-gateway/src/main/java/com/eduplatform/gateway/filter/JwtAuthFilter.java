@@ -9,6 +9,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
@@ -20,6 +21,16 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
             "/api/auth/login",
             "/api/auth/register",
             "/api/auth/refresh-token"
+    );
+
+    // Role-based route protection
+    private static final Map<String, List<String>> ROLE_PROTECTED_ROUTES = Map.of(
+            "/api/admin", List.of("admin"),
+            "/api/teacher", List.of("teacher", "admin"),
+            "/api/courses/create", List.of("teacher", "admin"),
+            "/api/exams/create", List.of("teacher", "admin"),
+            "/api/exams/correct", List.of("teacher", "admin"),
+            "/api/parent", List.of("parent", "admin")
     );
 
     public JwtAuthFilter(JwtUtil jwtUtil) {
@@ -51,12 +62,28 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
                 return exchange.getResponse().setComplete();
             }
 
-            // Extract user info from JWT and add as headers for downstream services
+            // Role-based access control
+            String role = jwtUtil.extractRole(token);
+            for (Map.Entry<String, List<String>> entry : ROLE_PROTECTED_ROUTES.entrySet()) {
+                if (path.startsWith(entry.getKey())) {
+                    if (role == null || !entry.getValue().contains(role)) {
+                        exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                        return exchange.getResponse().setComplete();
+                    }
+                    break;
+                }
+            }
+
+            // Extract user info and strip any existing X-Auth headers to prevent spoofing
             String userId = jwtUtil.extractUserId(token);
             String email = jwtUtil.extractEmail(token);
-            String role = jwtUtil.extractRole(token);
 
             ServerHttpRequest modifiedRequest = request.mutate()
+                    .headers(h -> {
+                        h.remove("X-Auth-UserId");
+                        h.remove("X-Auth-UserEmail");
+                        h.remove("X-Auth-UserRole");
+                    })
                     .header("X-Auth-UserId", userId != null ? userId : "")
                     .header("X-Auth-UserEmail", email != null ? email : "")
                     .header("X-Auth-UserRole", role != null ? role : "")

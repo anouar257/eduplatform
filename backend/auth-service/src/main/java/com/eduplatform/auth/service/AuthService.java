@@ -23,8 +23,9 @@ public class AuthService {
             throw new RuntimeException("Email ou mot de passe incorrect");
         }
 
-        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole());
-        return new AuthResponse(toUserInfo(user), token);
+        String accessToken = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+        return new AuthResponse(toUserInfo(user), accessToken, refreshToken);
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -33,6 +34,11 @@ public class AuthService {
         }
 
         String role = (request.role() != null && !request.role().isBlank()) ? request.role() : "student";
+
+        // Block admin self-registration
+        if ("admin".equalsIgnoreCase(role)) {
+            throw new RuntimeException("Inscription en tant qu'admin non autorisée");
+        }
 
         User user = User.builder()
                 .firstName(request.firstName())
@@ -45,8 +51,28 @@ public class AuthService {
 
         user = userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole());
-        return new AuthResponse(toUserInfo(user), token);
+        String accessToken = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+        return new AuthResponse(toUserInfo(user), accessToken, refreshToken);
+    }
+
+    public AuthResponse refreshToken(String refreshTokenStr) {
+        if (!jwtService.isTokenValid(refreshTokenStr)) {
+            throw new RuntimeException("Refresh token invalide ou expiré");
+        }
+
+        String type = jwtService.extractTokenType(refreshTokenStr);
+        if (!"refresh".equals(type)) {
+            throw new RuntimeException("Ce token n'est pas un refresh token");
+        }
+
+        String email = jwtService.extractEmail(refreshTokenStr);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        String newAccessToken = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole());
+        String newRefreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+        return new AuthResponse(toUserInfo(user), newAccessToken, newRefreshToken);
     }
 
     public UserInfo getMe(String token) {
@@ -58,7 +84,7 @@ public class AuthService {
 
     private UserInfo toUserInfo(User user) {
         return new UserInfo(
-                String.valueOf(user.getId()),  // Long → String for Angular
+                String.valueOf(user.getId()),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
